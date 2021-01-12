@@ -1,4 +1,5 @@
 import 'package:Budgy/res/res.dart';
+import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -82,8 +83,8 @@ class DatabaseHelper {
     return await _db.query(tableName);
   }
 
-  Future<List<Map<String, dynamic>>> query(
-    String tableName, {
+  Future<List<Map<String, dynamic>>> query({
+    @required String tableName,
     List<String> columns,
     String where,
     List<String> whereArgs,

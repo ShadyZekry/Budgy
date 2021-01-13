@@ -1,6 +1,6 @@
 import 'package:Budgy/models/Transaction.dart';
-import 'package:Budgy/res/code_strings.dart';
-import 'package:Budgy/util/database.dart';
+import 'package:Budgy/resources/code_strings.dart';
+import 'package:Budgy/services/transaction.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -41,7 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
           FloatingActionButton(
             onPressed: () {
               _incrementCounter();
-              DatabaseUtils.createTransaction(Transaction.fromJson(
+              TransactionService.createTransaction(Transaction.fromJson(
                 {
                   CodeStrings.datetimeColumnName: DateTime.now(),
                   CodeStrings.amountColumnName: 10,
@@ -56,14 +56,14 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           FloatingActionButton(
             onPressed: () async {
-              print(await DatabaseUtils.getTransaction(1));
+              print(await TransactionService.getTransaction(1));
             },
             tooltip: 'show',
             child: Icon(Icons.query_builder),
           ),
           FloatingActionButton(
             onPressed: () async {
-              print(await DatabaseUtils.getAllTransaction());
+              print(await TransactionService.getAllTransaction());
             },
             tooltip: 'show all',
             child: Icon(Icons.get_app),

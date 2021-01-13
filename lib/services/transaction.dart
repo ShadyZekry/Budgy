@@ -1,8 +1,8 @@
 import 'package:Budgy/helpers/database_helper.dart';
 import 'package:Budgy/models/Transaction.dart';
-import 'package:Budgy/res/code_strings.dart';
+import 'package:Budgy/resources/code_strings.dart';
 
-class DatabaseUtils {
+class TransactionService {
   static DatabaseHelper _dbHelper = DatabaseHelper.instance;
 
   static void createTransaction(Transaction transaction) {
@@ -37,7 +37,7 @@ class DatabaseUtils {
   }
 
   static void editTransaction(
-      String transactionId, Transaction newTransaction) async {
+      int transactionId, Transaction newTransaction) async {
     _dbHelper.update(
       CodeStrings.transactionTableName,
       CodeStrings.idColumnName,
@@ -46,11 +46,11 @@ class DatabaseUtils {
     );
   }
 
-  // TODO:: edit Transaction
-  // TODO:: delet Transaction
-
-  // TODO:: create category
-  // TODO:: get category
-  // TODO:: edit category
-  // TODO:: delete category
+  static void deleteTransaction(int transactionId) async {
+    _dbHelper.delete(
+      CodeStrings.transactionTableName,
+      CodeStrings.idColumnName,
+      transactionId,
+    );
+  }
 }

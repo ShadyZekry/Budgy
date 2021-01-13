@@ -1,4 +1,4 @@
-import 'package:Budgy/res/res.dart';
+import 'package:Budgy/resources/res.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -63,7 +63,7 @@ class DatabaseHelper {
   void update(
     String tableName,
     String columnName,
-    String columnValue,
+    dynamic columnValue,
     Map<String, dynamic> newValues,
   ) async {
     Database _db = await instance._db;

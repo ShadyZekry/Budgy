@@ -9,7 +9,7 @@ class CodeStrings {
   static const colorColumnName = "color";
 
   // Transaction DB-table strings
-  static const transactionTableName = "transaction";
+  static const transactionTableName = "money_transaction";
   static const datetimeColumnName = "datetime";
   static const amountColumnName = "amount";
   static const currencyColumnName = "currency";

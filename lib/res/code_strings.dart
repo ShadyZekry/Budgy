@@ -13,6 +13,6 @@ class CodeStrings {
   static const datetimeColumnName = "datetime";
   static const amountColumnName = "amount";
   static const currencyColumnName = "currency";
-  static const isExpenseColumnName = "is_xpense";
-  static const categoryIdColumnName = "category_d";
+  static const isExpenseColumnName = "is_expense";
+  static const categoryIdColumnName = "category_id";
 }

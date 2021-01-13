@@ -1,40 +1,48 @@
 import 'package:Budgy/helpers/database_helper.dart';
+import 'package:Budgy/models/Transaction.dart';
 import 'package:Budgy/res/code_strings.dart';
-import 'package:flutter/cupertino.dart';
 
 class DatabaseUtils {
   static DatabaseHelper _dbHelper = DatabaseHelper.instance;
 
-  static void createTransaction({
-    @required DateTime datetime,
-    @required int amount,
-    @required String currency,
-    @required bool isExpense,
-    @required int categoryId,
-  }) {
+  static void createTransaction(Transaction transaction) {
     _dbHelper.insert(CodeStrings.transactionTableName, {
-      CodeStrings.datetimeColumnName: datetime.toString(),
-      CodeStrings.amountColumnName: amount,
-      CodeStrings.currencyColumnName: currency,
-      CodeStrings.isExpenseColumnName: isExpense.toString(),
-      CodeStrings.categoryIdColumnName: categoryId,
+      CodeStrings.datetimeColumnName: transaction.datetime.toString(),
+      CodeStrings.amountColumnName: transaction.amount,
+      CodeStrings.currencyColumnName: transaction.currency,
+      CodeStrings.isExpenseColumnName: transaction.isExpense.toString(),
+      CodeStrings.categoryIdColumnName: transaction.categoryId,
     });
   }
 
-  static Future<Map<String, dynamic>> getTransaction(int transactionId) async {
+  static Future<Transaction> getTransaction(int transactionId) async {
     List<Map<String, dynamic>> data = await _dbHelper.query(
         tableName: CodeStrings.transactionTableName,
         where: "${CodeStrings.idColumnName} = ?",
         whereArgs: [transactionId.toString()],
         columns: [CodeStrings.datetimeColumnName, CodeStrings.idColumnName]);
 
-    return data[0];
+    return Transaction.fromJson(data[0]);
   }
 
-  static Future<List<Map<String, dynamic>>> getAllTransaction() async {
-    return await _dbHelper.query(
+  static Future<List<Transaction>> getAllTransaction() async {
+    List<Map<String, dynamic>> data = await _dbHelper.query(
       tableName: CodeStrings.transactionTableName,
       columns: [CodeStrings.datetimeColumnName, CodeStrings.idColumnName],
+    );
+
+    return data
+        .map<Transaction>((element) => Transaction.fromJson(element))
+        .toList();
+  }
+
+  static void editTransaction(
+      String transactionId, Transaction newTransaction) async {
+    _dbHelper.update(
+      CodeStrings.transactionTableName,
+      CodeStrings.idColumnName,
+      transactionId,
+      newTransaction.toJson(),
     );
   }
 

@@ -1,3 +1,5 @@
+import 'package:Budgy/models/Transaction.dart';
+import 'package:Budgy/res/code_strings.dart';
 import 'package:Budgy/util/database.dart';
 import 'package:flutter/material.dart';
 
@@ -39,13 +41,15 @@ class _MyHomePageState extends State<MyHomePage> {
           FloatingActionButton(
             onPressed: () {
               _incrementCounter();
-              DatabaseUtils.createTransaction(
-                datetime: DateTime.now(),
-                amount: 10,
-                currency: "EGP",
-                isExpense: true,
-                categoryId: 0,
-              );
+              DatabaseUtils.createTransaction(Transaction.fromJson(
+                {
+                  CodeStrings.datetimeColumnName: DateTime.now(),
+                  CodeStrings.amountColumnName: 10,
+                  CodeStrings.currencyColumnName: "EGP",
+                  CodeStrings.isExpenseColumnName: true,
+                  CodeStrings.idColumnName: 0,
+                },
+              ));
             },
             tooltip: 'Increment',
             child: Icon(Icons.add),

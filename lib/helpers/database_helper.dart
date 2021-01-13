@@ -31,17 +31,18 @@ class DatabaseHelper {
 
   void _createDB(Database db, int version) async {
     // Run the CREATE TABLE statement on the database.
-    await db.execute(
-      '''
+    await db.execute('''
       CREATE TABLE ${CodeStrings.categoryTableName} (
-        ${CodeStrings.idColumnName} INT NOT NULL PRIMARY KEY,
+        ${CodeStrings.idColumnName} INTEGER PRIMARY KEY AUTOINCREMENT,
         ${CodeStrings.nameColumnName} TEXT NOT NULL,
         ${CodeStrings.iconColumnName} BOOLEAN NOT NULL,
         ${CodeStrings.colorColumnName} BOOLEAN NOT NULL
       )
+      ''');
 
+    await db.execute('''
       CREATE TABLE ${CodeStrings.transactionTableName} (
-        ${CodeStrings.idColumnName} INT NOT NULL PRIMARY KEY,
+        ${CodeStrings.idColumnName} INTEGER PRIMARY KEY AUTOINCREMENT,
         ${CodeStrings.datetimeColumnName} DATETIME NOT NULL,
         ${CodeStrings.amountColumnName} INT NOT NULL,
         ${CodeStrings.currencyColumnName} CHARACTER(3) NOT NULL,
@@ -49,9 +50,7 @@ class DatabaseHelper {
         ${CodeStrings.categoryIdColumnName} INT NOT NULL,
         FOREIGN KEY(${CodeStrings.categoryIdColumnName}) REFERENCES ${CodeStrings.categoryTableName}(${CodeStrings.idColumnName})
       )
-      
-      ''',
-    );
+      ''');
     // await db
     //     .insert(CodeStrings.miscTableName, {CodeStrings.scoreColumnName: 0});
   }

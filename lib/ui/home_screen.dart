@@ -41,15 +41,6 @@ class _MyHomePageState extends State<MyHomePage> {
           FloatingActionButton(
             onPressed: () {
               _incrementCounter();
-              TransactionService.createTransaction(Transaction.fromJson(
-                {
-                  CodeStrings.datetimeColumnName: DateTime.now(),
-                  CodeStrings.amountColumnName: 10,
-                  CodeStrings.currencyColumnName: "EGP",
-                  CodeStrings.isExpenseColumnName: true,
-                  CodeStrings.idColumnName: 0,
-                },
-              ));
             },
             tooltip: 'Increment',
             child: Icon(Icons.add),

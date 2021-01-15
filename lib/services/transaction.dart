@@ -6,13 +6,7 @@ class TransactionService {
   static DatabaseHelper _dbHelper = DatabaseHelper.instance;
 
   static void createTransaction(Transaction transaction) {
-    _dbHelper.insert(CodeStrings.transactionTableName, {
-      CodeStrings.datetimeColumnName: transaction.datetime.toString(),
-      CodeStrings.amountColumnName: transaction.amount,
-      CodeStrings.currencyColumnName: transaction.currency,
-      CodeStrings.isExpenseColumnName: transaction.isExpense.toString(),
-      CodeStrings.categoryIdColumnName: transaction.categoryId,
-    });
+    _dbHelper.insert(CodeStrings.transactionTableName, transaction.toJson());
   }
 
   static Future<Transaction> getTransaction(int transactionId) async {
@@ -28,7 +22,6 @@ class TransactionService {
   static Future<List<Transaction>> getAllTransaction() async {
     List<Map<String, dynamic>> data = await _dbHelper.query(
       tableName: CodeStrings.transactionTableName,
-      columns: [CodeStrings.datetimeColumnName, CodeStrings.idColumnName],
     );
 
     return data

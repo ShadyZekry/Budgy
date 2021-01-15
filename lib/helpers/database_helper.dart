@@ -44,10 +44,10 @@ class DatabaseHelper {
       CREATE TABLE ${CodeStrings.transactionTableName} (
         ${CodeStrings.idColumnName} INTEGER PRIMARY KEY AUTOINCREMENT,
         ${CodeStrings.datetimeColumnName} DATETIME NOT NULL,
-        ${CodeStrings.amountColumnName} INT NOT NULL,
+        ${CodeStrings.amountColumnName} INTEGER NOT NULL,
         ${CodeStrings.currencyColumnName} CHARACTER(3) NOT NULL,
-        ${CodeStrings.isExpenseColumnName} INT NOT NULL,
-        ${CodeStrings.categoryIdColumnName} INT NOT NULL,
+        ${CodeStrings.isExpenseColumnName} INTEGER NOT NULL,
+        ${CodeStrings.categoryIdColumnName} INTEGER NOT NULL,
         FOREIGN KEY(${CodeStrings.categoryIdColumnName}) REFERENCES ${CodeStrings.categoryTableName}(${CodeStrings.idColumnName})
       )
       ''');

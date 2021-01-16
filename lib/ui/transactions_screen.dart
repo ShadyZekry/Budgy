@@ -111,6 +111,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
 
     TransactionService.deleteTransaction(_transactionToDelete.id);
     transactions.removeAt(0);
+    setState(() {});
   }
 
   Widget _buildTransactionBox(Transaction _transaction) {

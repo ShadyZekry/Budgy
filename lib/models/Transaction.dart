@@ -16,6 +16,7 @@ class Transaction {
   @JsonKey(name: "category_id")
   int categoryId;
 
+  Transaction.empty();
   Transaction(
     this.id,
     this.datetime,

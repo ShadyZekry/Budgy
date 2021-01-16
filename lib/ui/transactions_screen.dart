@@ -86,6 +86,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
         await TransactionService.createTransactionWithData(_newTransaction);
     transactions.add(_newTransaction);
 
+    setState(() {});
     if (listkey.currentState == null) return;
 
     listkey.currentState.insertItem(transactions.length - 1);

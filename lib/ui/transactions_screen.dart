@@ -1,6 +1,7 @@
 import 'package:Budgy/models/Transaction.dart';
 import 'package:Budgy/resources/res.dart';
 import 'package:Budgy/services/transaction.dart';
+import 'package:Budgy/widgets/transaction_box.dart';
 import 'package:flutter/material.dart';
 
 class TransactionsScreen extends StatefulWidget {
@@ -67,7 +68,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
           sizeFactor: animation,
           child: FadeTransition(
             opacity: animation,
-            child: _buildTransactionBox(transactions[index]),
+            child: TransactionBox(transactions[index]),
           ),
         );
       },
@@ -103,7 +104,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
           sizeFactor: animation,
           child: FadeTransition(
             opacity: animation,
-            child: _buildTransactionBox(_transactionToDelete),
+            child: TransactionBox(_transactionToDelete),
           ),
         );
       },
@@ -112,34 +113,6 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     TransactionService.deleteTransaction(_transactionToDelete.id);
     transactions.removeAt(0);
     setState(() {});
-  }
-
-  Widget _buildTransactionBox(Transaction _transaction) {
-    return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-      padding: const EdgeInsets.all(15),
-      decoration: BoxDecoration(
-          color: AppColors.boxColor, borderRadius: BorderRadius.circular(15)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            'id:   ${_transaction.id}',
-            style: TextStyle(color: AppColors.textGrey),
-          ),
-          Text(
-            'datetime:  ${_transaction.datetime}',
-            style: TextStyle(color: AppColors.textGrey),
-          ),
-          // Text(
-          //   'amount:  ${_transaction.amount}${_transaction.currency}',
-          //   style: TextStyle(color: AppColors.textGrey),
-          // ),
-        ],
-      ),
-    );
   }
 
   bool get _hastransactions {

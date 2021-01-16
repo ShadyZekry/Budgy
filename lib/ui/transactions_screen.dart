@@ -28,14 +28,31 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton:
-          FloatingActionButton(onPressed: _onIncrementTransactions),
-      body: Center(
+      backgroundColor: AppColors.accentBlack,
+      floatingActionButton: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FloatingActionButton(
+            onPressed: _onAddTransactions,
+            child: Icon(Icons.add),
+          ),
+          FloatingActionButton(
+            onPressed: _onRemoveTransactions,
+            child: Icon(Icons.remove),
+          ),
+        ],
+      ),
+      body:
+          //TODO:: remove thi center widget
+          Center(
         child: _isLoading
-            ? CircularProgressIndicator()
+            ? Center(child: CircularProgressIndicator())
             : _hastransactions
                 ? _buildAnimatedList()
-                : Text("no transactions"),
+                : Text(
+                    "no transactions",
+                    style: TextStyle(color: AppColors.textGrey),
+                  ),
       ),
     );
   }
@@ -48,32 +65,81 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
       itemBuilder: (_, int index, Animation<double> animation) {
         return SizeTransition(
           sizeFactor: animation,
-          child: Container(
-            child: Text(
-                '${transactions[index].datetime}:    ${transactions[index].amount}${transactions[index].currency}'),
+          child: FadeTransition(
+            opacity: animation,
+            child: _buildTransactionBox(transactions[index]),
           ),
         );
       },
     );
   }
 
-  void _onIncrementTransactions() {
-    Transaction _newTransaction = Transaction.fromJson(
-      {
-        CodeStrings.datetimeColumnName: DateTime.now().toString(),
-        CodeStrings.amountColumnName: 10,
-        CodeStrings.currencyColumnName: "EGP",
-        CodeStrings.isExpenseColumnName: 1,
-        CodeStrings.categoryIdColumnName: 0,
-      },
-    );
+  void _onAddTransactions() async {
+    Transaction _newTransaction = Transaction.empty()
+      ..datetime = DateTime.now()
+      ..amount = 10
+      ..currency = "EGP"
+      ..isExpense = true
+      ..categoryId = 0;
 
-    TransactionService.createTransaction(_newTransaction);
+    _newTransaction =
+        await TransactionService.createTransactionWithData(_newTransaction);
     transactions.add(_newTransaction);
 
     if (listkey.currentState == null) return;
 
-    listkey.currentState.insertItem(0);
+    listkey.currentState.insertItem(transactions.length - 1);
+  }
+
+  void _onRemoveTransactions() {
+    if (listkey.currentState == null) return;
+
+    Transaction _transactionToDelete = transactions[0];
+
+    listkey.currentState.removeItem(
+      0,
+      (_, Animation<double> animation) {
+        return SizeTransition(
+          sizeFactor: animation,
+          child: FadeTransition(
+            opacity: animation,
+            child: _buildTransactionBox(_transactionToDelete),
+          ),
+        );
+      },
+    );
+
+    TransactionService.deleteTransaction(_transactionToDelete.id);
+    transactions.removeAt(0);
+    setState(() {});
+  }
+
+  Widget _buildTransactionBox(Transaction _transaction) {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+      padding: const EdgeInsets.all(15),
+      decoration: BoxDecoration(
+          color: AppColors.boxColor, borderRadius: BorderRadius.circular(15)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'id:   ${_transaction.id}',
+            style: TextStyle(color: AppColors.textGrey),
+          ),
+          Text(
+            'datetime:  ${_transaction.datetime}',
+            style: TextStyle(color: AppColors.textGrey),
+          ),
+          // Text(
+          //   'amount:  ${_transaction.amount}${_transaction.currency}',
+          //   style: TextStyle(color: AppColors.textGrey),
+          // ),
+        ],
+      ),
+    );
   }
 
   bool get _hastransactions {

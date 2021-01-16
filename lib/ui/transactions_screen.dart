@@ -1,8 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:Budgy/models/Transaction.dart';
 import 'package:Budgy/resources/res.dart';
 import 'package:Budgy/services/transaction.dart';
 import 'package:Budgy/widgets/transaction_box.dart';
-import 'package:flutter/material.dart';
+import 'package:Budgy/widgets/transaction_creation/add_transaction_bottom_sheet.dart';
 
 class TransactionsScreen extends StatefulWidget {
   @override
@@ -29,7 +30,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.accentBlack,
+      backgroundColor: AppColors.backgroundColor,
       floatingActionButton: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -38,13 +39,22 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
             child: Icon(Icons.add),
           ),
           FloatingActionButton(
+            onPressed: () => showModalBottomSheet(
+              context: context,
+              builder: (_) => AddTransactionBottomSheet(),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15)),
+            ),
+            child: Icon(Icons.add_business_rounded),
+          ),
+          FloatingActionButton(
             onPressed: _onRemoveTransactions,
             child: Icon(Icons.remove),
           ),
         ],
       ),
       body:
-          //TODO:: remove thi center widget
+          //TODO:: remove this center widget
           Center(
         child: _isLoading
             ? Center(child: CircularProgressIndicator())
@@ -62,6 +72,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     return AnimatedList(
       key: listkey,
       shrinkWrap: true,
+      physics: BouncingScrollPhysics(),
       initialItemCount: transactions?.length,
       itemBuilder: (_, int index, Animation<double> animation) {
         return SizeTransition(

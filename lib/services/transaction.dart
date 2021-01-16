@@ -5,16 +5,18 @@ import 'package:Budgy/resources/code_strings.dart';
 class TransactionService {
   static DatabaseHelper _dbHelper = DatabaseHelper.instance;
 
-  static void createTransaction(Transaction transaction) {
+  static Future<Transaction> createTransactionWithData(
+      Transaction transaction) async {
     _dbHelper.insert(CodeStrings.transactionTableName, transaction.toJson());
+    return (await getAllTransaction()).last;
   }
 
   static Future<Transaction> getTransaction(int transactionId) async {
     List<Map<String, dynamic>> data = await _dbHelper.query(
-        tableName: CodeStrings.transactionTableName,
-        where: "${CodeStrings.idColumnName} = ?",
-        whereArgs: [transactionId.toString()],
-        columns: [CodeStrings.datetimeColumnName, CodeStrings.idColumnName]);
+      tableName: CodeStrings.transactionTableName,
+      where: "${CodeStrings.idColumnName} = ?",
+      whereArgs: [transactionId.toString()],
+    );
 
     return Transaction.fromJson(data[0]);
   }

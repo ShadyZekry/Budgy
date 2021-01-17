@@ -1,4 +1,8 @@
+import 'package:Budgy/models/Transaction.dart';
 import 'package:Budgy/resources/res.dart';
+import 'package:Budgy/services/transaction.dart';
+import 'package:Budgy/utils/transaction_utils.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 class KeyboardWidget extends StatelessWidget {
@@ -32,7 +36,8 @@ class KeyboardWidget extends StatelessWidget {
           _buildKeyboardButtonWidget(title: '2', function: _addStringToResult),
           _buildKeyboardButtonWidget(title: '3', function: _addStringToResult),
           _buildKeyboardButtonWidget(
-              icon: Icon(Icons.check, color: AppColors.white)),
+              icon: Icon(Icons.check, color: AppColors.white),
+              function: _createTransaction),
           _buildKeyboardButtonWidget(
               icon: Icon(Icons.add, color: AppColors.white)),
           _buildKeyboardButtonWidget(title: '0', function: _addStringToResult),
@@ -72,5 +77,19 @@ class KeyboardWidget extends StatelessWidget {
 
     textController.text =
         textController.text.substring(0, textController.text.length - 1);
+  }
+
+  void _createTransaction(_) async {
+    Transaction _newTransaction =
+        await TransactionService.createTransactionWithData(
+      Transaction.empty()
+        ..datetime = DateTime.now()
+        ..categoryId = 1
+        ..isExpense = true
+        ..amount = TransactionUtility.getFormatedAmountDouble(textController)
+        ..currency = "EGP",
+    );
+
+    ExtendedNavigator.root.pop(_newTransaction);
   }
 }

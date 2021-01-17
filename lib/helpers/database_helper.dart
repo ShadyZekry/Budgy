@@ -44,7 +44,7 @@ class DatabaseHelper {
       CREATE TABLE ${CodeStrings.transactionTableName} (
         ${CodeStrings.idColumnName} INTEGER PRIMARY KEY AUTOINCREMENT,
         ${CodeStrings.datetimeColumnName} DATETIME NOT NULL,
-        ${CodeStrings.amountColumnName} INTEGER NOT NULL,
+        ${CodeStrings.amountColumnName} DOUBLE NOT NULL,
         ${CodeStrings.currencyColumnName} CHARACTER(3) NOT NULL,
         ${CodeStrings.isExpenseColumnName} INTEGER NOT NULL,
         ${CodeStrings.categoryIdColumnName} INTEGER NOT NULL,

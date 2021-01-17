@@ -1,7 +1,16 @@
 import 'package:Budgy/resources/colors.dart';
+import 'package:Budgy/widgets/transaction_creation/keyboard_widget.dart';
 import 'package:flutter/material.dart';
 
-class AddTransactionBottomSheet extends StatelessWidget {
+class AddTransactionBottomSheet extends StatefulWidget {
+  @override
+  _AddTransactionBottomSheetState createState() =>
+      _AddTransactionBottomSheetState();
+}
+
+class _AddTransactionBottomSheetState extends State<AddTransactionBottomSheet> {
+  TextEditingController _textController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -9,51 +18,29 @@ class AddTransactionBottomSheet extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
         color: AppColors.backgroundColor,
       ),
-      child: GridView.count(
-        crossAxisCount: 5,
+      child: Column(
         children: [
-          _buildKeyboardButtonWidget(title: '÷'),
-          _buildKeyboardButtonWidget(title: '7'),
-          _buildKeyboardButtonWidget(title: '8'),
-          _buildKeyboardButtonWidget(title: '9'),
-          _buildKeyboardButtonWidget(icon: Icon(Icons.remove_circle)),
-          _buildKeyboardButtonWidget(title: 'x'),
-          _buildKeyboardButtonWidget(title: '4'),
-          _buildKeyboardButtonWidget(title: '5'),
-          _buildKeyboardButtonWidget(title: '6'),
-          _buildKeyboardButtonWidget(icon: Icon(Icons.calendar_today)),
-          _buildKeyboardButtonWidget(icon: Icon(Icons.remove)),
-          _buildKeyboardButtonWidget(title: '1'),
-          _buildKeyboardButtonWidget(title: '2'),
-          _buildKeyboardButtonWidget(title: '3'),
-          _buildKeyboardButtonWidget(icon: Icon(Icons.check)),
-          _buildKeyboardButtonWidget(icon: Icon(Icons.add)),
-          _buildKeyboardButtonWidget(title: '0'),
-          _buildKeyboardButtonWidget(title: '.'),
+          _buildResultWidget(),
+          KeyboardWidget(
+              textController: _textController, refreshResult: setState),
         ],
       ),
     );
   }
 
-  Widget _buildKeyboardButtonWidget({
-    String title,
-    Icon icon,
-    Color fillColor,
-    Function function,
-  }) {
-    return Container(
-      decoration: BoxDecoration(
-        color: fillColor,
-        border: Border.all(color: AppColors.white, width: 0.1),
-      ),
-      child: Center(
-        child: title == null
-            ? icon
-            : Text(
-                title,
-                style: TextStyle(fontSize: 35),
-              ),
+  Widget _buildResultWidget() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 30),
+      child: Text(
+        _textController.text.isEmpty ? '0' : _getFormatedResult.toString(),
+        style: TextStyle(color: AppColors.expenseIndicatorColor, fontSize: 30),
       ),
     );
+  }
+
+  dynamic get _getFormatedResult {
+    return _textController.text.contains('.')
+        ? double.parse(_textController.text)
+        : int.parse(_textController.text);
   }
 }

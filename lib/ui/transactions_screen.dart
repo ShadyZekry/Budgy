@@ -36,15 +36,6 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
         children: [
           FloatingActionButton(
             onPressed: _onAddTransactions,
-            child: Icon(Icons.add),
-          ),
-          FloatingActionButton(
-            onPressed: () => showModalBottomSheet(
-              context: context,
-              builder: (_) => AddTransactionBottomSheet(),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15)),
-            ),
             child: Icon(Icons.add_business_rounded),
           ),
           FloatingActionButton(
@@ -87,19 +78,16 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
   }
 
   void _onAddTransactions() async {
-    Transaction _newTransaction = Transaction.empty()
-      ..datetime = DateTime.now()
-      ..amount = 10
-      ..currency = "EGP"
-      ..isExpense = true
-      ..categoryId = 0;
+    Transaction _newTransaction = await showModalBottomSheet<Transaction>(
+      context: context,
+      builder: (_) => AddTransactionBottomSheet(),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+    );
 
-    _newTransaction =
-        await TransactionService.createTransactionWithData(_newTransaction);
+    if (_newTransaction == null) return;
+
     transactions.add(_newTransaction);
-
     if (listkey.currentState == null) return;
-
     listkey.currentState.insertItem(transactions.length - 1);
   }
 

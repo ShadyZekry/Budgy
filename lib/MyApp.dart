@@ -1,4 +1,5 @@
-import 'package:Budgy/ui/transactions_screen.dart';
+import 'package:Budgy/main_router.gr.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 class MyApp extends StatelessWidget {
@@ -10,7 +11,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: TransactionsScreen(),
+      builder: ExtendedNavigator.builder<MainRouter>(
+        router: MainRouter(),
+        builder: (context, extendedNav) => extendedNav,
+      ),
     );
   }
 }

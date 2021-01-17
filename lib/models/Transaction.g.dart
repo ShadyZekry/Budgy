@@ -12,7 +12,7 @@ Transaction _$TransactionFromJson(Map<String, dynamic> json) {
     json['datetime'] == null
         ? null
         : DateTime.parse(json['datetime'] as String),
-    json['amount'] as int,
+    (json['amount'] as num)?.toDouble(),
     json['currency'] as String,
     Transaction._isExpenseFromJson(json['is_expense'] as int),
     json['category_id'] as int,

@@ -1,8 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:Budgy/models/Transaction.dart';
 import 'package:Budgy/resources/res.dart';
 import 'package:Budgy/services/transaction.dart';
 import 'package:Budgy/widgets/transaction_box.dart';
-import 'package:flutter/material.dart';
+import 'package:Budgy/widgets/transaction_creation/add_transaction_bottom_sheet.dart';
 
 class TransactionsScreen extends StatefulWidget {
   @override
@@ -29,13 +30,13 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.accentBlack,
+      backgroundColor: AppColors.backgroundColor,
       floatingActionButton: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           FloatingActionButton(
             onPressed: _onAddTransactions,
-            child: Icon(Icons.add),
+            child: Icon(Icons.add_business_rounded),
           ),
           FloatingActionButton(
             onPressed: _onRemoveTransactions,
@@ -44,7 +45,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
         ],
       ),
       body:
-          //TODO:: remove thi center widget
+          //TODO:: remove this center widget
           Center(
         child: _isLoading
             ? Center(child: CircularProgressIndicator())
@@ -62,6 +63,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     return AnimatedList(
       key: listkey,
       shrinkWrap: true,
+      physics: BouncingScrollPhysics(),
       initialItemCount: transactions?.length,
       itemBuilder: (_, int index, Animation<double> animation) {
         return SizeTransition(
@@ -76,19 +78,16 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
   }
 
   void _onAddTransactions() async {
-    Transaction _newTransaction = Transaction.empty()
-      ..datetime = DateTime.now()
-      ..amount = 10
-      ..currency = "EGP"
-      ..isExpense = true
-      ..categoryId = 0;
+    Transaction _newTransaction = await showModalBottomSheet<Transaction>(
+      context: context,
+      builder: (_) => AddTransactionBottomSheet(),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+    );
 
-    _newTransaction =
-        await TransactionService.createTransactionWithData(_newTransaction);
+    if (_newTransaction == null) return;
+
     transactions.add(_newTransaction);
-
     if (listkey.currentState == null) return;
-
     listkey.currentState.insertItem(transactions.length - 1);
   }
 

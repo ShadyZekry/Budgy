@@ -5,7 +5,7 @@ part 'Transaction.g.dart';
 class Transaction {
   int id;
   DateTime datetime;
-  int amount;
+  double amount;
   String currency;
   @JsonKey(
     name: "is_expense",

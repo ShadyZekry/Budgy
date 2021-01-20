@@ -1,7 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:Budgy/models/Transaction.dart';
 import 'package:Budgy/resources/res.dart';
 import 'package:Budgy/services/transaction.dart';
-import 'package:flutter/material.dart';
+import 'package:Budgy/widgets/transaction_box.dart';
+import 'package:Budgy/widgets/transaction_creation/add_transaction_bottom_sheet.dart';
 
 class TransactionsScreen extends StatefulWidget {
   @override
@@ -28,13 +30,17 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.accentBlack,
+      backgroundColor: AppColors.backgroundColor,
       floatingActionButton: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           FloatingActionButton(
-            onPressed: _onAddTransactions,
-            child: Icon(Icons.add),
+            onPressed: () => _onAddTransactions(true),
+            child: Icon(Icons.insert_drive_file),
+          ),
+          FloatingActionButton(
+            onPressed: () => _onAddTransactions(false),
+            child: Icon(Icons.monetization_on),
           ),
           FloatingActionButton(
             onPressed: _onRemoveTransactions,
@@ -43,7 +49,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
         ],
       ),
       body:
-          //TODO:: remove thi center widget
+          //TODO:: remove this center widget
           Center(
         child: _isLoading
             ? Center(child: CircularProgressIndicator())
@@ -61,26 +67,26 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     return AnimatedList(
       key: listkey,
       shrinkWrap: true,
+      physics: BouncingScrollPhysics(),
       initialItemCount: transactions?.length,
       itemBuilder: (_, int index, Animation<double> animation) {
         return SizeTransition(
           sizeFactor: animation,
           child: FadeTransition(
             opacity: animation,
-            child: _buildTransactionBox(transactions[index]),
+            child: TransactionBox(transactions[index]),
           ),
         );
       },
     );
   }
 
-  void _onAddTransactions() async {
-    Transaction _newTransaction = Transaction.empty()
-      ..datetime = DateTime.now()
-      ..amount = 10
-      ..currency = "EGP"
-      ..isExpense = true
-      ..categoryId = 0;
+  void _onAddTransactions(bool isExpense) async {
+    Transaction _newTransaction = await showModalBottomSheet<Transaction>(
+      context: context,
+      builder: (_) => AddTransactionBottomSheet(isExpense),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+    );
 
     _newTransaction =
         await TransactionService.createTransactionWithData(_newTransaction);
@@ -104,7 +110,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
           sizeFactor: animation,
           child: FadeTransition(
             opacity: animation,
-            child: _buildTransactionBox(_transactionToDelete),
+            child: TransactionBox(_transactionToDelete),
           ),
         );
       },
@@ -113,34 +119,6 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     TransactionService.deleteTransaction(_transactionToDelete.id);
     transactions.removeAt(0);
     setState(() {});
-  }
-
-  Widget _buildTransactionBox(Transaction _transaction) {
-    return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-      padding: const EdgeInsets.all(15),
-      decoration: BoxDecoration(
-          color: AppColors.boxColor, borderRadius: BorderRadius.circular(15)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            'id:   ${_transaction.id}',
-            style: TextStyle(color: AppColors.textGrey),
-          ),
-          Text(
-            'datetime:  ${_transaction.datetime}',
-            style: TextStyle(color: AppColors.textGrey),
-          ),
-          // Text(
-          //   'amount:  ${_transaction.amount}${_transaction.currency}',
-          //   style: TextStyle(color: AppColors.textGrey),
-          // ),
-        ],
-      ),
-    );
   }
 
   bool get _hastransactions {

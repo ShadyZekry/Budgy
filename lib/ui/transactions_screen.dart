@@ -88,8 +88,6 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
     );
 
-    _newTransaction =
-        await TransactionService.createTransactionWithData(_newTransaction);
     transactions.add(_newTransaction);
 
     setState(() {});

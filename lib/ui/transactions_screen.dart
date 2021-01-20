@@ -35,8 +35,12 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
         mainAxisSize: MainAxisSize.min,
         children: [
           FloatingActionButton(
-            onPressed: _onAddTransactions,
-            child: Icon(Icons.add_business_rounded),
+            onPressed: () => _onAddTransactions(true),
+            child: Icon(Icons.insert_drive_file),
+          ),
+          FloatingActionButton(
+            onPressed: () => _onAddTransactions(false),
+            child: Icon(Icons.monetization_on),
           ),
           FloatingActionButton(
             onPressed: _onRemoveTransactions,
@@ -77,10 +81,10 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     );
   }
 
-  void _onAddTransactions() async {
+  void _onAddTransactions(bool isExpense) async {
     Transaction _newTransaction = await showModalBottomSheet<Transaction>(
       context: context,
-      builder: (_) => AddTransactionBottomSheet(),
+      builder: (_) => AddTransactionBottomSheet(isExpense),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
     );
 

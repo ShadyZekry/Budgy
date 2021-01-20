@@ -4,6 +4,9 @@ import 'package:Budgy/widgets/transaction_creation/keyboard_widget.dart';
 import 'package:flutter/material.dart';
 
 class AddTransactionBottomSheet extends StatefulWidget {
+  final bool isExpense;
+  AddTransactionBottomSheet(this.isExpense);
+
   @override
   _AddTransactionBottomSheetState createState() =>
       _AddTransactionBottomSheetState();
@@ -23,7 +26,10 @@ class _AddTransactionBottomSheetState extends State<AddTransactionBottomSheet> {
         children: [
           _buildResultWidget(),
           KeyboardWidget(
-              textController: _textController, refreshResult: setState),
+            textController: _textController,
+            refreshResult: setState,
+            isExpense: widget.isExpense,
+          ),
         ],
       ),
     );
@@ -36,7 +42,12 @@ class _AddTransactionBottomSheetState extends State<AddTransactionBottomSheet> {
         _textController.text.isEmpty
             ? '0'
             : TransactionUtility.getFormatedAmountString(_textController),
-        style: TextStyle(color: AppColors.expenseIndicatorColor, fontSize: 30),
+        style: TextStyle(
+          fontSize: 30,
+          color: widget.isExpense
+              ? AppColors.expenseIndicatorColor
+              : AppColors.incomeIndicatorColor,
+        ),
       ),
     );
   }

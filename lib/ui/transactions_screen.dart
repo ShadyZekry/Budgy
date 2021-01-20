@@ -88,10 +88,13 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
     );
 
-    if (_newTransaction == null) return;
-
+    _newTransaction =
+        await TransactionService.createTransactionWithData(_newTransaction);
     transactions.add(_newTransaction);
+
+    setState(() {});
     if (listkey.currentState == null) return;
+
     listkey.currentState.insertItem(transactions.length - 1);
   }
 

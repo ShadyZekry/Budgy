@@ -8,7 +8,8 @@ import 'package:flutter/material.dart';
 class KeyboardWidget extends StatelessWidget {
   final TextEditingController textController;
   final Function refreshResult;
-  KeyboardWidget({this.textController, this.refreshResult});
+  final bool isExpense;
+  KeyboardWidget({this.textController, this.refreshResult, this.isExpense});
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +86,7 @@ class KeyboardWidget extends StatelessWidget {
       Transaction.empty()
         ..datetime = DateTime.now()
         ..categoryId = 1
-        ..isExpense = true
+        ..isExpense = isExpense
         ..amount = TransactionUtility.getFormatedAmountDouble(textController)
         ..currency = "EGP",
     );

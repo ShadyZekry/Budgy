@@ -1,6 +1,6 @@
-import 'package:Budgy/resources/colors.dart';
-import 'package:Budgy/utils/transaction_utils.dart';
-import 'package:Budgy/widgets/transaction_creation/keyboard_widget.dart';
+import 'package:budgy/resources/colors.dart';
+import 'package:budgy/utils/transaction_utils.dart';
+import 'package:budgy/widgets/transaction_creation/keyboard_widget.dart';
 import 'package:flutter/material.dart';
 
 class AddTransactionBottomSheet extends StatefulWidget {

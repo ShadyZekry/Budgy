@@ -1,6 +1,6 @@
-import 'package:Budgy/helpers/database_helper.dart';
-import 'package:Budgy/models/Transaction.dart';
-import 'package:Budgy/resources/code_strings.dart';
+import 'package:budgy/helpers/database_helper.dart';
+import 'package:budgy/models/Transaction.dart';
+import 'package:budgy/resources/code_strings.dart';
 
 class TransactionService {
   static DatabaseHelper _dbHelper = DatabaseHelper.instance;

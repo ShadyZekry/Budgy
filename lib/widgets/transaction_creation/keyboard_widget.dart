@@ -1,7 +1,7 @@
-import 'package:Budgy/models/Transaction.dart';
-import 'package:Budgy/resources/res.dart';
-import 'package:Budgy/services/transaction.dart';
-import 'package:Budgy/utils/transaction_utils.dart';
+import 'package:budgy/models/Transaction.dart';
+import 'package:budgy/resources/res.dart';
+import 'package:budgy/services/transaction.dart';
+import 'package:budgy/utils/transaction_utils.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 

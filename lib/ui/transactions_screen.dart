@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:Budgy/models/Transaction.dart';
-import 'package:Budgy/resources/res.dart';
-import 'package:Budgy/services/transaction.dart';
-import 'package:Budgy/widgets/transaction_box.dart';
-import 'package:Budgy/widgets/transaction_creation/add_transaction_bottom_sheet.dart';
+import 'package:budgy/models/Transaction.dart';
+import 'package:budgy/resources/res.dart';
+import 'package:budgy/services/transaction.dart';
+import 'package:budgy/widgets/transaction_box.dart';
+import 'package:budgy/widgets/transaction_creation/add_transaction_bottom_sheet.dart';
 
 class TransactionsScreen extends StatefulWidget {
   @override

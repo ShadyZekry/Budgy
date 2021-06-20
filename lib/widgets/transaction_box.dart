@@ -1,5 +1,5 @@
-import 'package:Budgy/models/Transaction.dart';
-import 'package:Budgy/resources/res.dart';
+import 'package:budgy/models/Transaction.dart';
+import 'package:budgy/resources/res.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

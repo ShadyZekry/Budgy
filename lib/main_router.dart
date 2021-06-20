@@ -1,4 +1,4 @@
-import 'package:Budgy/ui/transactions_screen.dart';
+import 'package:budgy/ui/transactions_screen.dart';
 import 'package:auto_route/auto_route_annotations.dart';
 
 @MaterialAutoRouter(

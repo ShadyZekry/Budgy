@@ -1,20 +1,18 @@
 import 'package:budgy/main_router.gr.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 class MyApp extends StatelessWidget {
+  final _appRouter = AppRouter();
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerDelegate: _appRouter.delegate(),
+      routeInformationParser: _appRouter.defaultRouteParser(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'BebasNeue-Regular',
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      builder: ExtendedNavigator.builder<MainRouter>(
-        router: MainRouter(),
-        builder: (context, extendedNav) => extendedNav,
       ),
     );
   }

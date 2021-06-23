@@ -3,7 +3,7 @@ part 'Transaction.g.dart';
 
 @JsonSerializable()
 class Transaction {
-  int id;
+  int? id;
   DateTime datetime;
   double amount;
   String currency;
@@ -16,15 +16,14 @@ class Transaction {
   @JsonKey(name: "category_id")
   int categoryId;
 
-  Transaction.empty();
-  Transaction(
+  Transaction({
     this.id,
-    this.datetime,
-    this.amount,
-    this.currency,
-    this.isExpense,
-    this.categoryId,
-  );
+    required this.datetime,
+    required this.amount,
+    required this.currency,
+    required this.isExpense,
+    required this.categoryId,
+  });
 
   factory Transaction.fromJson(Map<String, dynamic> json) =>
       _$TransactionFromJson(json);

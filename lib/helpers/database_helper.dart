@@ -1,18 +1,16 @@
 import 'package:budgy/resources/res.dart';
-import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
   //DB needs to be a singleton, this is one of many ways to create singletons
-  DatabaseHelper._createInstance(); //1. create a private named-constructor
-  static final DatabaseHelper instance =
-      DatabaseHelper._createInstance(); //2.Create a singleton instance
+  factory DatabaseHelper() => instance;
+  static final DatabaseHelper instance = DatabaseHelper._internal();
+  const DatabaseHelper._internal();
 
-  Database _sqfliteDatabase;
+  // Database? _sqfliteDatabase;
   Future<Database> get _db async {
-    // If you have an existing DB return it, else open it.
-    if (_sqfliteDatabase != null) return _sqfliteDatabase;
+    // if (_sqfliteDatabase != null) return _sqfliteDatabase;
 
     return await _openDB();
   }
@@ -83,10 +81,10 @@ class DatabaseHelper {
   }
 
   Future<List<Map<String, dynamic>>> query({
-    @required String tableName,
-    List<String> columns,
-    String where,
-    List<String> whereArgs,
+    required String tableName,
+    List<String>? columns,
+    String? where,
+    List<String>? whereArgs,
   }) async {
     Database _db = await instance._db;
     return await _db.query(tableName,

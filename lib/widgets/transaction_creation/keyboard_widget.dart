@@ -1,15 +1,19 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:budgy/main_router.gr.dart';
 import 'package:budgy/models/Transaction.dart';
 import 'package:budgy/resources/res.dart';
 import 'package:budgy/services/transaction.dart';
 import 'package:budgy/utils/transaction_utils.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 class KeyboardWidget extends StatelessWidget {
   final TextEditingController textController;
   final Function refreshResult;
   final bool isExpense;
-  KeyboardWidget({this.textController, this.refreshResult, this.isExpense});
+  KeyboardWidget(
+      {required this.textController,
+      required this.refreshResult,
+      required this.isExpense});
 
   @override
   Widget build(BuildContext context) {
@@ -49,11 +53,11 @@ class KeyboardWidget extends StatelessWidget {
   }
 
   Widget _buildKeyboardButtonWidget(
-      {String title, Icon icon, Function function}) {
+      {String? title, Icon? icon, Function? function}) {
     return Container(
       decoration:
           BoxDecoration(border: Border.all(color: AppColors.white, width: 0.1)),
-      child: FlatButton(
+      child: TextButton(
         onPressed: () {
           if (function != null) function(title);
           refreshResult(() {});
@@ -82,15 +86,13 @@ class KeyboardWidget extends StatelessWidget {
 
   void _createTransaction(_) async {
     Transaction _newTransaction =
-        await TransactionService.createTransactionWithData(
-      Transaction.empty()
-        ..datetime = DateTime.now()
-        ..categoryId = 1
-        ..isExpense = isExpense
-        ..amount = TransactionUtility.getFormatedAmountDouble(textController)
-        ..currency = "EGP",
-    );
-
-    ExtendedNavigator.root.pop(_newTransaction);
+        await TransactionService.createTransactionWithData(Transaction(
+      datetime: DateTime.now(),
+      currency: "EGP",
+      categoryId: 1,
+      isExpense: isExpense,
+      amount: TransactionUtility.getFormatedAmountDouble(textController),
+    ));
+    AppRouter().pop(_newTransaction);
   }
 }

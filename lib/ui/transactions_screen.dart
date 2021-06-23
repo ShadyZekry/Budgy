@@ -68,7 +68,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
       key: listkey,
       shrinkWrap: true,
       physics: BouncingScrollPhysics(),
-      initialItemCount: transactions?.length,
+      initialItemCount: transactions.length,
       itemBuilder: (_, int index, Animation<double> animation) {
         return SizeTransition(
           sizeFactor: animation,
@@ -82,18 +82,19 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
   }
 
   void _onAddTransactions(bool isExpense) async {
-    Transaction _newTransaction = await showModalBottomSheet<Transaction>(
+    Transaction? _newTransaction = await showModalBottomSheet<Transaction>(
       context: context,
       builder: (_) => AddTransactionBottomSheet(isExpense),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
     );
 
+    if (_newTransaction == null) return;
     transactions.add(_newTransaction);
 
     setState(() {});
     if (listkey.currentState == null) return;
 
-    listkey.currentState.insertItem(transactions.length - 1);
+    listkey.currentState?.insertItem(transactions.length - 1);
   }
 
   void _onRemoveTransactions() {
@@ -101,7 +102,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
 
     Transaction _transactionToDelete = transactions[0];
 
-    listkey.currentState.removeItem(
+    listkey.currentState?.removeItem(
       0,
       (_, Animation<double> animation) {
         return SizeTransition(
@@ -114,12 +115,12 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
       },
     );
 
-    TransactionService.deleteTransaction(_transactionToDelete.id);
+    TransactionService.deleteTransaction(_transactionToDelete.id!);
     transactions.removeAt(0);
     setState(() {});
   }
 
   bool get _hastransactions {
-    return transactions?.isNotEmpty ?? false;
+    return transactions.isNotEmpty;
   }
 }

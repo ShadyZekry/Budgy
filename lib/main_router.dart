@@ -1,9 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:budgy/ui/transactions_screen.dart';
-import 'package:auto_route/auto_route_annotations.dart';
 
 @MaterialAutoRouter(
+  replaceInRouteName: 'Page,Route',
   routes: <AutoRoute>[
-    MaterialRoute(page: TransactionsScreen, initial: true),
+    AutoRoute(page: TransactionsScreen, initial: true),
   ],
 )
-class $MainRouter {}
+class $AppRouter {}

@@ -1,4 +1,4 @@
-package com.example.Budgy
+package com.example.budgy
 
 import io.flutter.embedding.android.FlutterActivity
 

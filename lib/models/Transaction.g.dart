@@ -8,21 +8,19 @@ part of 'Transaction.dart';
 
 Transaction _$TransactionFromJson(Map<String, dynamic> json) {
   return Transaction(
-    json['id'] as int,
-    json['datetime'] == null
-        ? null
-        : DateTime.parse(json['datetime'] as String),
-    (json['amount'] as num)?.toDouble(),
-    json['currency'] as String,
-    Transaction._isExpenseFromJson(json['is_expense'] as int),
-    json['category_id'] as int,
+    id: json['id'] as int,
+    datetime: DateTime.parse(json['datetime'] as String),
+    amount: (json['amount'] as num).toDouble(),
+    currency: json['currency'] as String,
+    isExpense: Transaction._isExpenseFromJson(json['is_expense'] as int),
+    categoryId: json['category_id'] as int,
   );
 }
 
 Map<String, dynamic> _$TransactionToJson(Transaction instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'datetime': instance.datetime?.toIso8601String(),
+      'datetime': instance.datetime.toIso8601String(),
       'amount': instance.amount,
       'currency': instance.currency,
       'is_expense': Transaction._isExpenseToJson(instance.isExpense),

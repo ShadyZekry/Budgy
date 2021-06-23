@@ -39,9 +39,7 @@ class _AddTransactionBottomSheetState extends State<AddTransactionBottomSheet> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 30),
       child: Text(
-        _textController.text.isEmpty
-            ? '0'
-            : TransactionUtility.getFormatedAmountString(_textController),
+        _textController.text,
         style: TextStyle(
           fontSize: 30,
           color: widget.isExpense

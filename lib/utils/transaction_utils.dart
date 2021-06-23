@@ -13,6 +13,6 @@ class TransactionUtility {
   }
 
   static bool hasCalculation(TextEditingController controller) {
-    return controller.text.contains(RegExp(r'\÷|X|\-|\+'));
+    return controller.text.contains(RegExp(r'\÷|x|\-|\+'));
   }
 }

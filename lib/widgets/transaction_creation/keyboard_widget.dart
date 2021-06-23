@@ -21,27 +21,25 @@ class KeyboardWidget extends StatelessWidget {
         crossAxisCount: 5,
         physics: NeverScrollableScrollPhysics(),
         children: [
-          _buildKeyboardButtonWidget(title: '÷'),
+          _buildCalculationButton('÷'),
           _buildNumberButton(7),
           _buildNumberButton(8),
           _buildNumberButton(9),
           _buildKeyboardButtonWidget(
               icon: Icon(Icons.backspace, color: AppColors.white),
               function: _removeLastValueFromResult),
-          _buildKeyboardButtonWidget(title: 'x'),
+          _buildCalculationButton('x'),
           _buildNumberButton(4),
           _buildNumberButton(5),
           _buildNumberButton(6),
           _buildKeyboardButtonWidget(
               icon: Icon(Icons.calendar_today, color: AppColors.white)),
-          _buildKeyboardButtonWidget(
-              icon: Icon(Icons.remove, color: AppColors.white)),
+          _buildCalculationButton('-'),
           _buildNumberButton(1),
           _buildNumberButton(2),
           _buildNumberButton(3),
           _buildSubmitButton(),
-          _buildKeyboardButtonWidget(
-              icon: Icon(Icons.add, color: AppColors.white)),
+          _buildCalculationButton('+'),
           _buildNumberButton(0),
           _buildKeyboardButtonWidget(title: '.'),
         ],
@@ -64,6 +62,23 @@ class KeyboardWidget extends StatelessWidget {
               ? icon
               : Text(title,
                   style: TextStyle(fontSize: 35, color: AppColors.white)),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCalculationButton(String calculation) {
+    return Container(
+      decoration:
+          BoxDecoration(border: Border.all(color: AppColors.white, width: 0.1)),
+      child: TextButton(
+        onPressed: () {
+          textController.text += calculation;
+          refreshResult(() {});
+        },
+        child: Center(
+          child: Text(calculation,
+              style: TextStyle(fontSize: 35, color: AppColors.white)),
         ),
       ),
     );
@@ -107,8 +122,7 @@ class KeyboardWidget extends StatelessWidget {
   }
 
   void _removeLastValueFromResult(_) {
-    if (textController.text.isEmpty || double.parse(textController.text) <= 0)
-      return;
+    if (!shouldRemoveFromInput) return;
 
     textController.text =
         textController.text.substring(0, textController.text.length - 1);
@@ -124,5 +138,11 @@ class KeyboardWidget extends StatelessWidget {
       amount: TransactionUtility.getFormatedAmountDouble(textController.text),
     ));
     appRouter.root.pop(_newTransaction);
+  }
+
+  bool get shouldRemoveFromInput {
+    return textController.text.isNotEmpty &&
+        (double.tryParse(textController.text) == null ||
+            double.parse(textController.text) >= 0);
   }
 }

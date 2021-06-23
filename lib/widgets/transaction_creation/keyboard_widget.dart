@@ -39,9 +39,7 @@ class KeyboardWidget extends StatelessWidget {
           _buildNumberButton(1),
           _buildNumberButton(2),
           _buildNumberButton(3),
-          _buildKeyboardButtonWidget(
-              icon: Icon(Icons.check, color: AppColors.white),
-              function: _createTransaction),
+          _buildSubmitButton(),
           _buildKeyboardButtonWidget(
               icon: Icon(Icons.add, color: AppColors.white)),
           _buildNumberButton(0),
@@ -66,6 +64,26 @@ class KeyboardWidget extends StatelessWidget {
               ? icon
               : Text(title,
                   style: TextStyle(fontSize: 35, color: AppColors.white)),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSubmitButton() {
+    return Container(
+      decoration:
+          BoxDecoration(border: Border.all(color: AppColors.white, width: 0.1)),
+      child: TextButton(
+        onPressed: () {
+          //do something
+          _createTransaction();
+          refreshResult(() {});
+        },
+        child: Center(
+          child: TransactionUtility.hasCalculation(textController)
+              ? Text('=',
+                  style: TextStyle(fontSize: 35, color: AppColors.white))
+              : Icon(Icons.check, color: AppColors.white),
         ),
       ),
     );
@@ -96,14 +114,14 @@ class KeyboardWidget extends StatelessWidget {
         textController.text.substring(0, textController.text.length - 1);
   }
 
-  void _createTransaction(_) async {
+  void _createTransaction() async {
     Transaction _newTransaction =
         await TransactionService.createTransactionWithData(Transaction(
       datetime: DateTime.now(),
       currency: "EGP",
       categoryId: 1,
       isExpense: isExpense,
-      amount: TransactionUtility.getFormatedAmountDouble(textController),
+      amount: TransactionUtility.getFormatedAmountDouble(textController.text),
     ));
     appRouter.root.pop(_newTransaction);
   }

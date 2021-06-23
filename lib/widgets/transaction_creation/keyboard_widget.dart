@@ -1,6 +1,4 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:budgy/MyApp.dart';
-import 'package:budgy/main_router.gr.dart';
 import 'package:budgy/models/Transaction.dart';
 import 'package:budgy/resources/res.dart';
 import 'package:budgy/services/transaction.dart';
@@ -24,29 +22,29 @@ class KeyboardWidget extends StatelessWidget {
         physics: NeverScrollableScrollPhysics(),
         children: [
           _buildKeyboardButtonWidget(title: '÷'),
-          _buildKeyboardButtonWidget(title: '7', function: _addStringToResult),
-          _buildKeyboardButtonWidget(title: '8', function: _addStringToResult),
-          _buildKeyboardButtonWidget(title: '9', function: _addStringToResult),
+          _buildNumberButton(7),
+          _buildNumberButton(8),
+          _buildNumberButton(9),
           _buildKeyboardButtonWidget(
               icon: Icon(Icons.backspace, color: AppColors.white),
               function: _removeLastValueFromResult),
           _buildKeyboardButtonWidget(title: 'x'),
-          _buildKeyboardButtonWidget(title: '4', function: _addStringToResult),
-          _buildKeyboardButtonWidget(title: '5', function: _addStringToResult),
-          _buildKeyboardButtonWidget(title: '6', function: _addStringToResult),
+          _buildNumberButton(4),
+          _buildNumberButton(5),
+          _buildNumberButton(6),
           _buildKeyboardButtonWidget(
               icon: Icon(Icons.calendar_today, color: AppColors.white)),
           _buildKeyboardButtonWidget(
               icon: Icon(Icons.remove, color: AppColors.white)),
-          _buildKeyboardButtonWidget(title: '1', function: _addStringToResult),
-          _buildKeyboardButtonWidget(title: '2', function: _addStringToResult),
-          _buildKeyboardButtonWidget(title: '3', function: _addStringToResult),
+          _buildNumberButton(1),
+          _buildNumberButton(2),
+          _buildNumberButton(3),
           _buildKeyboardButtonWidget(
               icon: Icon(Icons.check, color: AppColors.white),
               function: _createTransaction),
           _buildKeyboardButtonWidget(
               icon: Icon(Icons.add, color: AppColors.white)),
-          _buildKeyboardButtonWidget(title: '0', function: _addStringToResult),
+          _buildNumberButton(0),
           _buildKeyboardButtonWidget(title: '.'),
         ],
       ),
@@ -73,8 +71,21 @@ class KeyboardWidget extends StatelessWidget {
     );
   }
 
-  void _addStringToResult(String value) {
-    textController.text += value;
+  Widget _buildNumberButton(int number) {
+    return Container(
+      decoration:
+          BoxDecoration(border: Border.all(color: AppColors.white, width: 0.1)),
+      child: TextButton(
+        onPressed: () {
+          textController.text += number.toString();
+          refreshResult(() {});
+        },
+        child: Center(
+          child: Text(number.toString(),
+              style: TextStyle(fontSize: 35, color: AppColors.white)),
+        ),
+      ),
+    );
   }
 
   void _removeLastValueFromResult(_) {

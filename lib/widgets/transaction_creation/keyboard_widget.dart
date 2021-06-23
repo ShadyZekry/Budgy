@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:budgy/MyApp.dart';
 import 'package:budgy/main_router.gr.dart';
 import 'package:budgy/models/Transaction.dart';
 import 'package:budgy/resources/res.dart';
@@ -93,6 +94,6 @@ class KeyboardWidget extends StatelessWidget {
       isExpense: isExpense,
       amount: TransactionUtility.getFormatedAmountDouble(textController),
     ));
-    AppRouter().pop(_newTransaction);
+    appRouter.root.pop(_newTransaction);
   }
 }

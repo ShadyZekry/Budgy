@@ -157,7 +157,7 @@ class KeyboardWidget extends StatelessWidget {
       currency: "EGP",
       categoryId: 1,
       isExpense: isExpense,
-      amount: TransactionUtility.getFormatedAmountDouble(textController),
+      amount: TransactionUtility.getFormatedAmountDouble(textController)!,
     ));
     appRouter.root.pop(_newTransaction);
   }

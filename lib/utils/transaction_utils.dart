@@ -7,9 +7,9 @@ class TransactionUtility {
         : getFormatedAmountDouble(controller).toString();
   }
 
-  static double getFormatedAmountDouble(TextEditingController controller) {
+  static double? getFormatedAmountDouble(TextEditingController controller) {
     if (controller.text.isEmpty) return 0;
-    return double.parse(controller.text);
+    return double.tryParse(controller.text);
   }
 
   static bool hasCalculation(TextEditingController controller) {

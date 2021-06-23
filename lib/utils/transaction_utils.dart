@@ -1,13 +1,18 @@
 import 'package:flutter/cupertino.dart';
 
 class TransactionUtility {
-  static String getFormatedAmountString(TextEditingController _textController) {
-    return _textController.text.contains('.')
-        ? getFormatedAmountDouble(_textController).toString()
-        : int.parse(_textController.text).toString();
+  static String getFormatedAmountString(TextEditingController controller) {
+    return controller.text.isEmpty
+        ? '0'
+        : getFormatedAmountDouble(controller).toString();
   }
 
-  static double getFormatedAmountDouble(TextEditingController _textController) {
-    return double.parse(_textController.text);
+  static double? getFormatedAmountDouble(TextEditingController controller) {
+    if (controller.text.isEmpty) return 0;
+    return double.tryParse(controller.text);
+  }
+
+  static bool hasCalculation(TextEditingController controller) {
+    return controller.text.contains(RegExp(r'\÷|x|\-|\+'));
   }
 }

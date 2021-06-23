@@ -1,5 +1,4 @@
 import 'package:budgy/resources/colors.dart';
-import 'package:budgy/utils/transaction_utils.dart';
 import 'package:budgy/widgets/transaction_creation/keyboard_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +12,7 @@ class AddTransactionBottomSheet extends StatefulWidget {
 }
 
 class _AddTransactionBottomSheetState extends State<AddTransactionBottomSheet> {
-  TextEditingController _textController = TextEditingController();
+  TextEditingController _textController = TextEditingController(text: '0');
 
   @override
   Widget build(BuildContext context) {

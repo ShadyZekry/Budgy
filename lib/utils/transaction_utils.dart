@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 
 class TransactionUtility {
   static String getFormatedAmountString(TextEditingController controller) {
-    return controller.text.contains('.')
-        ? getFormatedAmountDouble(controller).toString()
-        : int.parse(controller.text).toString();
+    return controller.text.isEmpty
+        ? '0'
+        : getFormatedAmountDouble(controller).toString();
   }
 
   static double getFormatedAmountDouble(TextEditingController controller) {

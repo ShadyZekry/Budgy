@@ -25,9 +25,7 @@ class KeyboardWidget extends StatelessWidget {
           _buildNumberButton(7),
           _buildNumberButton(8),
           _buildNumberButton(9),
-          _buildKeyboardButtonWidget(
-              icon: Icon(Icons.backspace, color: AppColors.white),
-              function: _removeLastValueFromResult),
+          _buildBackspaceButton(),
           _buildCalculationButton('x'),
           _buildNumberButton(4),
           _buildNumberButton(5),
@@ -67,6 +65,24 @@ class KeyboardWidget extends StatelessWidget {
     );
   }
 
+  Widget _buildBackspaceButton() {
+    return Container(
+      decoration:
+          BoxDecoration(border: Border.all(color: AppColors.white, width: 0.1)),
+      child: TextButton(
+        onPressed: () {
+          _removeLastValueFromResult();
+          refreshResult(() {});
+        },
+        onLongPress: () {
+          textController.text = '0';
+          refreshResult(() {});
+        },
+        child: Center(child: Icon(Icons.backspace, color: AppColors.white)),
+      ),
+    );
+  }
+
   Widget _buildCalculationButton(String calculation) {
     return Container(
       decoration:
@@ -90,8 +106,7 @@ class KeyboardWidget extends StatelessWidget {
           BoxDecoration(border: Border.all(color: AppColors.white, width: 0.1)),
       child: TextButton(
         onPressed: () {
-          if (TransactionUtility.getFormatedAmountDouble(textController) == 0)
-            return;
+          if (_isInputZero) return;
           _createTransaction();
           refreshResult(() {});
         },
@@ -111,7 +126,10 @@ class KeyboardWidget extends StatelessWidget {
           BoxDecoration(border: Border.all(color: AppColors.white, width: 0.1)),
       child: TextButton(
         onPressed: () {
-          textController.text += number.toString();
+          if (_isInputZero)
+            textController.text = number.toString();
+          else
+            textController.text += number.toString();
           refreshResult(() {});
         },
         child: Center(
@@ -122,11 +140,14 @@ class KeyboardWidget extends StatelessWidget {
     );
   }
 
-  void _removeLastValueFromResult(_) {
-    if (!shouldRemoveFromInput) return;
+  void _removeLastValueFromResult() {
+    if (!_shouldRemoveFromInput) return;
 
-    textController.text =
-        textController.text.substring(0, textController.text.length - 1);
+    if (textController.text.length == 1)
+      textController.text = '0';
+    else
+      textController.text =
+          textController.text.substring(0, textController.text.length - 1);
   }
 
   void _createTransaction() async {
@@ -141,9 +162,12 @@ class KeyboardWidget extends StatelessWidget {
     appRouter.root.pop(_newTransaction);
   }
 
-  bool get shouldRemoveFromInput {
+  bool get _shouldRemoveFromInput {
     return textController.text.isNotEmpty &&
         (double.tryParse(textController.text) == null ||
-            double.parse(textController.text) >= 0);
+            double.parse(textController.text) > 0);
   }
+
+  bool get _isInputZero =>
+      TransactionUtility.getFormatedAmountDouble(textController) == 0;
 }

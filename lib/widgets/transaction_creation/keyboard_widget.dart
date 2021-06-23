@@ -90,7 +90,8 @@ class KeyboardWidget extends StatelessWidget {
           BoxDecoration(border: Border.all(color: AppColors.white, width: 0.1)),
       child: TextButton(
         onPressed: () {
-          //do something
+          if (TransactionUtility.getFormatedAmountDouble(textController) == 0)
+            return;
           _createTransaction();
           refreshResult(() {});
         },
@@ -135,7 +136,7 @@ class KeyboardWidget extends StatelessWidget {
       currency: "EGP",
       categoryId: 1,
       isExpense: isExpense,
-      amount: TransactionUtility.getFormatedAmountDouble(textController.text),
+      amount: TransactionUtility.getFormatedAmountDouble(textController),
     ));
     appRouter.root.pop(_newTransaction);
   }

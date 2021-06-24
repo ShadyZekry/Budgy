@@ -1,5 +1,3 @@
-import 'package:budgy/models/Transaction.dart';
-import 'package:budgy/resources/code_strings.dart';
 import 'package:budgy/services/transaction.dart';
 import 'package:flutter/material.dart';
 

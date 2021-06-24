@@ -84,7 +84,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
   void _onAddTransactions(bool isExpense) async {
     Transaction? _newTransaction = await showModalBottomSheet<Transaction>(
       context: context,
-      builder: (_) => AddTransactionBottomSheet(isExpense),
+      builder: (_) => AddTransactionBottomSheet(isExpense: isExpense),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
     );
 

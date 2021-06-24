@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class AddTransactionBottomSheet extends StatefulWidget {
   final bool isExpense;
-  AddTransactionBottomSheet(this.isExpense);
+  AddTransactionBottomSheet({required this.isExpense});
 
   @override
   _AddTransactionBottomSheetState createState() =>

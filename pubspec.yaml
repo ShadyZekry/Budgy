@@ -14,7 +14,6 @@ dependencies:
   sqflite: ^2.0.0+3
   intl: ^0.17.0
   flutter_launcher_icons: ^0.9.0
-  dependencies:
   auto_route: ^2.2.0
 
   cupertino_icons: ^1.0.0
@@ -37,7 +36,6 @@ flutter:
       fonts:
         - asset: assets/fonts/BebasNeue-Regular.ttf
 
-        
 flutter_icons:
   android: "launcher_icon"
   ios: true

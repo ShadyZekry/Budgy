@@ -1,5 +1,5 @@
 import 'package:budgy/helpers/database_helper.dart';
-import 'package:budgy/models/Transaction.dart';
+import 'package:budgy/models/transaction.dart';
 import 'package:budgy/resources/code_strings.dart';
 
 class TransactionService {

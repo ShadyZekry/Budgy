@@ -5,3 +5,8 @@ linter:
     - always_declare_return_types
     - avoid_unnecessary_containers
     - avoid_positional_boolean_parameters
+    - file_names
+
+analyzer:
+  errors:
+    file_names: error

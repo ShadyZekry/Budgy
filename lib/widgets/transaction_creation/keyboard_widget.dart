@@ -106,8 +106,13 @@ class KeyboardWidget extends StatelessWidget {
           BoxDecoration(border: Border.all(color: AppColors.white, width: 0.1)),
       child: TextButton(
         onPressed: () {
-          if (_isInputZero) return;
-          _createTransaction();
+          if (TransactionUtility.hasCalculation(textController))
+            TransactionUtility.performCalculation(textController);
+          else {
+            if (_isInputZero) return;
+            _createTransaction();
+          }
+
           refreshResult(() {});
         },
         child: Center(

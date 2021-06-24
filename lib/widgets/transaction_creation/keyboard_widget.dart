@@ -89,7 +89,16 @@ class KeyboardWidget extends StatelessWidget {
           BoxDecoration(border: Border.all(color: AppColors.white, width: 0.1)),
       child: TextButton(
         onPressed: () {
-          textController.text += calculation;
+          if (textController.text[textController.text.length - 1]
+              .contains(RegExp(r'\÷|x|\-|\+')))
+            textController.text = textController.text
+                .replaceFirst(RegExp(r'\÷|x|\-|\+'), calculation);
+          else if (TransactionUtility.hasCalculation(textController)) {
+            TransactionUtility.performCalculation(textController);
+            textController.text += calculation;
+          } else
+            textController.text += calculation;
+
           refreshResult(() {});
         },
         child: Center(

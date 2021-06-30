@@ -141,10 +141,7 @@ class KeyboardWidget extends StatelessWidget {
           BoxDecoration(border: Border.all(color: AppColors.white, width: 0.1)),
       child: TextButton(
         onPressed: () {
-          if (_isInputZero)
-            textController.text = number.toString();
-          else
-            textController.text += number.toString();
+          //event num-button pressed
           refreshResult(() {});
         },
         child: Center(
@@ -182,7 +179,4 @@ class KeyboardWidget extends StatelessWidget {
         (double.tryParse(textController.text) == null ||
             double.parse(textController.text) > 0);
   }
-
-  bool get _isInputZero =>
-      TransactionUtility.getFormatedAmountDouble(textController) == 0;
 }

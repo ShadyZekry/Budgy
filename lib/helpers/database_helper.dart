@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart';
 class DatabaseHelper {
   //DB needs to be a singleton, this is one of many ways to create singletons
   factory DatabaseHelper() => instance;
-  static final DatabaseHelper instance = DatabaseHelper._internal();
+  static final DatabaseHelper instance = const DatabaseHelper._internal();
   const DatabaseHelper._internal();
 
   // Database? _sqfliteDatabase;

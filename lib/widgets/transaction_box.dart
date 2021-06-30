@@ -34,15 +34,15 @@ class TransactionBox extends StatelessWidget {
             children: [
               Text(
                 'id:   ${_transaction.id}',
-                style: TextStyle(color: AppColors.textGrey),
+                style: const TextStyle(color: AppColors.textGrey),
               ),
               Text(
                 'amount:   ${_transaction.amount}',
-                style: TextStyle(color: AppColors.textGrey),
+                style: const TextStyle(color: AppColors.textGrey),
               ),
               Text(
                 DateFormat('dd MMMM y on HH:mm').format(_transaction.datetime),
-                style: TextStyle(color: AppColors.textGrey),
+                style: const TextStyle(color: AppColors.textGrey),
               ),
             ],
           ),

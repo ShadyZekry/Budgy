@@ -6,6 +6,7 @@ linter:
     - avoid_unnecessary_containers
     - avoid_positional_boolean_parameters
     - file_names
+    - prefer_const_constructors
 
 analyzer:
   errors:

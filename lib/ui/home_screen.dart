@@ -19,14 +19,14 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Budgy"),
+        title: const Text("Budgy"),
         centerTitle: true,
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('Your money'),
+            const Text('Your money'),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
@@ -41,21 +41,21 @@ class _MyHomePageState extends State<MyHomePage> {
               _incrementCounter();
             },
             tooltip: 'Increment',
-            child: Icon(Icons.add),
+            child: const Icon(Icons.add),
           ),
           FloatingActionButton(
             onPressed: () async {
               print(await TransactionService.getTransaction(1));
             },
             tooltip: 'show',
-            child: Icon(Icons.query_builder),
+            child: const Icon(Icons.query_builder),
           ),
           FloatingActionButton(
             onPressed: () async {
               print(await TransactionService.getAllTransaction());
             },
             tooltip: 'show all',
-            child: Icon(Icons.get_app),
+            child: const Icon(Icons.get_app),
           ),
         ],
       ),

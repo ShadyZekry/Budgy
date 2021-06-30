@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class TransactionUtility {
-  static const String _operatorRegex = r'\÷|x|\-|\+';
+  static const String operatorRegex = r'\÷|x|\-|\+';
 
   static String getFormatedAmountString(TextEditingController controller) {
     return controller.text.isEmpty
@@ -15,7 +15,7 @@ class TransactionUtility {
   }
 
   static bool hasCalculation(TextEditingController controller) {
-    return controller.text.contains(RegExp(_operatorRegex));
+    return controller.text.contains(RegExp(operatorRegex));
   }
 
   static void performCalculation(TextEditingController controller) {

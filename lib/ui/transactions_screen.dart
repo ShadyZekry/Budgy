@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:budgy/models/Transaction.dart';
+import 'package:budgy/models/transaction.dart';
 import 'package:budgy/resources/res.dart';
 import 'package:budgy/services/transaction.dart';
 import 'package:budgy/widgets/transaction_box.dart';
@@ -36,15 +36,15 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
         children: [
           FloatingActionButton(
             onPressed: () => _onAddTransactions(true),
-            child: Icon(Icons.insert_drive_file),
+            child: const Icon(Icons.insert_drive_file),
           ),
           FloatingActionButton(
             onPressed: () => _onAddTransactions(false),
-            child: Icon(Icons.monetization_on),
+            child: const Icon(Icons.monetization_on),
           ),
           FloatingActionButton(
             onPressed: _onRemoveTransactions,
-            child: Icon(Icons.remove),
+            child: const Icon(Icons.remove),
           ),
         ],
       ),
@@ -52,10 +52,10 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
           //TODO:: remove this center widget
           Center(
         child: _isLoading
-            ? Center(child: CircularProgressIndicator())
+            ? const Center(child: CircularProgressIndicator())
             : _hastransactions
                 ? _buildAnimatedList()
-                : Text(
+                : const Text(
                     "no transactions",
                     style: TextStyle(color: AppColors.textGrey),
                   ),
@@ -67,7 +67,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     return AnimatedList(
       key: listkey,
       shrinkWrap: true,
-      physics: BouncingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       initialItemCount: transactions.length,
       itemBuilder: (_, int index, Animation<double> animation) {
         return SizeTransition(

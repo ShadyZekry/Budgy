@@ -1,5 +1,5 @@
-import 'package:budgy/MyApp.dart';
-import 'package:budgy/models/Transaction.dart';
+import 'package:budgy/models/transaction.dart';
+import 'package:budgy/my_app.dart';
 import 'package:budgy/resources/res.dart';
 import 'package:budgy/services/transaction.dart';
 import 'package:budgy/utils/transaction_utils.dart';
@@ -19,7 +19,7 @@ class KeyboardWidget extends StatelessWidget {
     return Expanded(
       child: GridView.count(
         crossAxisCount: 5,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         children: [
           _buildCalculationButton('÷'),
           _buildNumberButton(7),
@@ -31,7 +31,7 @@ class KeyboardWidget extends StatelessWidget {
           _buildNumberButton(5),
           _buildNumberButton(6),
           _buildKeyboardButtonWidget(
-              icon: Icon(Icons.calendar_today, color: AppColors.white)),
+              icon: const Icon(Icons.calendar_today, color: AppColors.white)),
           _buildCalculationButton('-'),
           _buildNumberButton(1),
           _buildNumberButton(2),
@@ -59,7 +59,7 @@ class KeyboardWidget extends StatelessWidget {
           child: title == null
               ? icon
               : Text(title,
-                  style: TextStyle(fontSize: 35, color: AppColors.white)),
+                  style: const TextStyle(fontSize: 35, color: AppColors.white)),
         ),
       ),
     );
@@ -78,7 +78,8 @@ class KeyboardWidget extends StatelessWidget {
           textController.text = '0';
           refreshResult(() {});
         },
-        child: Center(child: Icon(Icons.backspace, color: AppColors.white)),
+        child:
+            const Center(child: Icon(Icons.backspace, color: AppColors.white)),
       ),
     );
   }
@@ -103,7 +104,7 @@ class KeyboardWidget extends StatelessWidget {
         },
         child: Center(
           child: Text(calculation,
-              style: TextStyle(fontSize: 35, color: AppColors.white)),
+              style: const TextStyle(fontSize: 35, color: AppColors.white)),
         ),
       ),
     );
@@ -126,9 +127,9 @@ class KeyboardWidget extends StatelessWidget {
         },
         child: Center(
           child: TransactionUtility.hasCalculation(textController)
-              ? Text('=',
+              ? const Text('=',
                   style: TextStyle(fontSize: 35, color: AppColors.white))
-              : Icon(Icons.check, color: AppColors.white),
+              : const Icon(Icons.check, color: AppColors.white),
         ),
       ),
     );
@@ -148,7 +149,7 @@ class KeyboardWidget extends StatelessWidget {
         },
         child: Center(
           child: Text(number.toString(),
-              style: TextStyle(fontSize: 35, color: AppColors.white)),
+              style: const TextStyle(fontSize: 35, color: AppColors.white)),
         ),
       ),
     );

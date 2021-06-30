@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'Transaction.dart';
+part of 'transaction.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
@@ -8,7 +8,7 @@ part of 'Transaction.dart';
 
 Transaction _$TransactionFromJson(Map<String, dynamic> json) {
   return Transaction(
-    id: json['id'] as int,
+    id: json['id'] as int?,
     datetime: DateTime.parse(json['datetime'] as String),
     amount: (json['amount'] as num).toDouble(),
     currency: json['currency'] as String,

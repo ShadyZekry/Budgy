@@ -1,4 +1,4 @@
-import 'package:budgy/utils/transaction_utils.dart';
+import 'package:budgy/utils/transaction_repo.dart';
 import 'package:flutter/cupertino.dart';
 
 class KeyboardState {
@@ -15,6 +15,9 @@ class KeyboardState {
   bool get hasCalculation => TransactionRepository.hasCalculation(_controller);
   bool get lastDigitIsCalc =>
       text[text.length - 1].contains(RegExp(r'\÷|x|\-|\+'));
+  bool get shouldRemoveFromInput =>
+      text.isNotEmpty &&
+      (double.tryParse(text) == null || double.parse(text) > 0);
 
   KeyboardState._internal(String text, bool isExpense)
       : _controller = TextEditingController(text: text),

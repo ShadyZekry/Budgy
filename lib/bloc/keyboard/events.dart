@@ -12,4 +12,8 @@ class CalculationButtonPressed extends KeyboardEvent {
   const CalculationButtonPressed(this.caclculation);
 }
 
+class BackButtonPressed extends KeyboardEvent {}
+
+class BackButtonLongPressed extends KeyboardEvent {}
+
 class SubmitButtonPressed extends KeyboardEvent {}

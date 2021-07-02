@@ -18,21 +18,12 @@ class TransactionRepository {
     return controller.text.contains(operatorRegex);
   }
 
-  // void _removeLastValueFromResult() {
-  //   if (!_shouldRemoveFromInput) return;
-
-  //   if (textController.text.length == 1)
-  //     textController.text = '0';
-  //   else
-  //     textController.text =
-  //         textController.text.substring(0, textController.text.length - 1);
-  // }
-
-  // bool get _shouldRemoveFromInput {
-  //   return textController.text.isNotEmpty &&
-  //       (double.tryParse(textController.text) == null ||
-  //           double.parse(textController.text) > 0);
-  // }
+  static String removeLastCharFrom(String input) {
+    if (input.length == 1)
+      return '0';
+    else
+      return input.substring(0, input.length - 1);
+  }
 
   static String performCalculation(String input) {
     int operatorIndex = input.indexOf(operatorRegex);

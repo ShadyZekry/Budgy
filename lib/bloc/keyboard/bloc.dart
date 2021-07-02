@@ -3,7 +3,7 @@ import 'package:budgy/bloc/keyboard/states.dart';
 import 'package:budgy/models/transaction.dart';
 import 'package:budgy/my_app.dart';
 import 'package:budgy/services/transaction.dart';
-import 'package:budgy/utils/transaction_utils.dart';
+import 'package:budgy/utils/transaction_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class KeyboardBloc extends Bloc<KeyboardEvent, KeyboardState> {
@@ -14,6 +14,8 @@ class KeyboardBloc extends Bloc<KeyboardEvent, KeyboardState> {
     if (event is NumberButtonPressed) yield onNumberPressed(event.number);
     if (event is CalculationButtonPressed)
       yield onCalculationPressed(event.caclculation);
+    if (event is BackButtonPressed) yield onBackPress();
+    if (event is BackButtonLongPressed) yield onBackLongPress();
     if (event is SubmitButtonPressed) yield onSubmitPressed();
   }
 
@@ -38,6 +40,17 @@ class KeyboardBloc extends Bloc<KeyboardEvent, KeyboardState> {
     } else
       resultText += calculation;
     return state.copyWith(text: resultText);
+  }
+
+  KeyboardState onBackPress() {
+    if (!state.shouldRemoveFromInput) return state;
+
+    String result = TransactionRepository.removeLastCharFrom(state.text);
+    return state.copyWith(text: result);
+  }
+
+  KeyboardState onBackLongPress() {
+    return state.copyWith(text: '0');
   }
 
   KeyboardState onSubmitPressed() {

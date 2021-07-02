@@ -25,10 +25,7 @@ class _AddTransactionBottomSheetState extends State<AddTransactionBottomSheet> {
       child: Column(
         children: [
           _buildResultWidget(),
-          KeyboardWidget(
-            refreshResult: setState,
-            isExpense: widget.isExpense,
-          ),
+          KeyboardWidget(isExpense: widget.isExpense),
         ],
       ),
     );

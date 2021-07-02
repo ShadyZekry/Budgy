@@ -5,11 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class KeyboardWidget extends StatelessWidget {
-  final Function refreshResult;
   final bool isExpense;
   // TODO:: THIS IS WRONG, DON'T LEAVE IT AS IT IS PLEASE
   late BuildContext crntContext;
-  KeyboardWidget({required this.refreshResult, required this.isExpense});
+  KeyboardWidget({required this.isExpense});
 
   @override
   Widget build(BuildContext context) {
@@ -69,12 +68,10 @@ class KeyboardWidget extends StatelessWidget {
           BoxDecoration(border: Border.all(color: AppColors.white, width: 0.1)),
       child: TextButton(
         onPressed: () {
-          // _removeLastValueFromResult();
-          // refreshResult(() {});
+          crntContext.read<KeyboardBloc>().add(BackButtonPressed());
         },
         onLongPress: () {
-          // textController.text = '0';
-          // refreshResult(() {});
+          crntContext.read<KeyboardBloc>().add(BackButtonLongPressed());
         },
         child:
             const Center(child: Icon(Icons.backspace, color: AppColors.white)),

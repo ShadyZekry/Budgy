@@ -1,21 +1,19 @@
-import 'package:budgy/models/transaction.dart';
-import 'package:budgy/my_app.dart';
+import 'package:budgy/bloc/keyboard/bloc.dart';
+import 'package:budgy/bloc/keyboard/events.dart';
 import 'package:budgy/resources/res.dart';
-import 'package:budgy/services/transaction.dart';
-import 'package:budgy/utils/transaction_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class KeyboardWidget extends StatelessWidget {
-  final TextEditingController textController;
   final Function refreshResult;
   final bool isExpense;
-  KeyboardWidget(
-      {required this.textController,
-      required this.refreshResult,
-      required this.isExpense});
+  // TODO:: THIS IS WRONG, DON'T LEAVE IT AS IT IS PLEASE
+  late BuildContext crntContext;
+  KeyboardWidget({required this.refreshResult, required this.isExpense});
 
   @override
   Widget build(BuildContext context) {
+    crntContext = context;
     return Expanded(
       child: GridView.count(
         crossAxisCount: 5,
@@ -53,7 +51,7 @@ class KeyboardWidget extends StatelessWidget {
       child: TextButton(
         onPressed: () {
           if (function != null) function(title);
-          refreshResult(() {});
+          // refreshResult(() {});
         },
         child: Center(
           child: title == null
@@ -71,12 +69,12 @@ class KeyboardWidget extends StatelessWidget {
           BoxDecoration(border: Border.all(color: AppColors.white, width: 0.1)),
       child: TextButton(
         onPressed: () {
-          _removeLastValueFromResult();
-          refreshResult(() {});
+          // _removeLastValueFromResult();
+          // refreshResult(() {});
         },
         onLongPress: () {
-          textController.text = '0';
-          refreshResult(() {});
+          // textController.text = '0';
+          // refreshResult(() {});
         },
         child:
             const Center(child: Icon(Icons.backspace, color: AppColors.white)),
@@ -90,17 +88,9 @@ class KeyboardWidget extends StatelessWidget {
           BoxDecoration(border: Border.all(color: AppColors.white, width: 0.1)),
       child: TextButton(
         onPressed: () {
-          if (textController.text[textController.text.length - 1]
-              .contains(RegExp(r'\÷|x|\-|\+')))
-            textController.text = textController.text
-                .replaceFirst(RegExp(r'\÷|x|\-|\+'), calculation);
-          else if (TransactionUtility.hasCalculation(textController)) {
-            TransactionUtility.performCalculation(textController);
-            textController.text += calculation;
-          } else
-            textController.text += calculation;
+          // TODO:: evnet calc-button pressed
 
-          refreshResult(() {});
+          // refreshResult(() {});
         },
         child: Center(
           child: Text(calculation,
@@ -116,21 +106,19 @@ class KeyboardWidget extends StatelessWidget {
           BoxDecoration(border: Border.all(color: AppColors.white, width: 0.1)),
       child: TextButton(
         onPressed: () {
-          if (TransactionUtility.hasCalculation(textController))
-            TransactionUtility.performCalculation(textController);
-          else {
-            if (_isInputZero) return;
-            _createTransaction();
-          }
+          // TODO:: evnet submit-button pressed
 
-          refreshResult(() {});
+          // refreshResult(() {});
         },
         child: Center(
-          child: TransactionUtility.hasCalculation(textController)
-              ? const Text('=',
-                  style: TextStyle(fontSize: 35, color: AppColors.white))
-              : const Icon(Icons.check, color: AppColors.white),
-        ),
+            child:
+                // TransactionRepository.hasCalculation(textController)
+
+                //     ?
+                const Text('=',
+                    style: TextStyle(fontSize: 35, color: AppColors.white))
+            // : const Icon(Icons.check, color: AppColors.white),
+            ),
       ),
     );
   }
@@ -141,8 +129,8 @@ class KeyboardWidget extends StatelessWidget {
           BoxDecoration(border: Border.all(color: AppColors.white, width: 0.1)),
       child: TextButton(
         onPressed: () {
-          //event num-button pressed
-          refreshResult(() {});
+          crntContext.read<KeyboardBloc>().add(NumberButtonPressed(number));
+          // refreshResult(() {});
         },
         child: Center(
           child: Text(number.toString(),
@@ -150,33 +138,5 @@ class KeyboardWidget extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void _removeLastValueFromResult() {
-    if (!_shouldRemoveFromInput) return;
-
-    if (textController.text.length == 1)
-      textController.text = '0';
-    else
-      textController.text =
-          textController.text.substring(0, textController.text.length - 1);
-  }
-
-  void _createTransaction() async {
-    Transaction _newTransaction =
-        await TransactionService.createTransactionWithData(Transaction(
-      datetime: DateTime.now(),
-      currency: "EGP",
-      categoryId: 1,
-      isExpense: isExpense,
-      amount: TransactionUtility.getFormatedAmountDouble(textController)!,
-    ));
-    appRouter.root.pop(_newTransaction);
-  }
-
-  bool get _shouldRemoveFromInput {
-    return textController.text.isNotEmpty &&
-        (double.tryParse(textController.text) == null ||
-            double.parse(textController.text) > 0);
   }
 }

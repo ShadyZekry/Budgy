@@ -1,6 +1,9 @@
+import 'package:budgy/bloc/keyboard/bloc.dart';
+import 'package:budgy/bloc/keyboard/states.dart';
 import 'package:budgy/resources/colors.dart';
 import 'package:budgy/widgets/transaction_creation/keyboard_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddTransactionBottomSheet extends StatefulWidget {
   final bool isExpense;
@@ -12,8 +15,6 @@ class AddTransactionBottomSheet extends StatefulWidget {
 }
 
 class _AddTransactionBottomSheetState extends State<AddTransactionBottomSheet> {
-  TextEditingController _textController = TextEditingController(text: '0');
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,7 +26,6 @@ class _AddTransactionBottomSheetState extends State<AddTransactionBottomSheet> {
         children: [
           _buildResultWidget(),
           KeyboardWidget(
-            textController: _textController,
             refreshResult: setState,
             isExpense: widget.isExpense,
           ),
@@ -35,17 +35,21 @@ class _AddTransactionBottomSheetState extends State<AddTransactionBottomSheet> {
   }
 
   Widget _buildResultWidget() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 30),
-      child: Text(
-        _textController.text,
-        style: TextStyle(
-          fontSize: 30,
-          color: widget.isExpense
-              ? AppColors.expenseIndicatorColor
-              : AppColors.incomeIndicatorColor,
-        ),
-      ),
+    return BlocBuilder<KeyboardBloc, KeyboardState>(
+      builder: (context, state) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 30),
+          child: Text(
+            state.text,
+            style: TextStyle(
+              fontSize: 30,
+              color: widget.isExpense
+                  ? AppColors.expenseIndicatorColor
+                  : AppColors.incomeIndicatorColor,
+            ),
+          ),
+        );
+      },
     );
   }
 }

@@ -18,8 +18,8 @@ class _AddTransactionBottomSheetState extends State<AddTransactionBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
         color: AppColors.backgroundColor,
       ),
       child: Column(

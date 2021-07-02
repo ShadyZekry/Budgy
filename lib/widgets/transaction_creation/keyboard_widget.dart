@@ -1,5 +1,6 @@
 import 'package:budgy/bloc/keyboard/bloc.dart';
 import 'package:budgy/bloc/keyboard/events.dart';
+import 'package:budgy/bloc/keyboard/states.dart';
 import 'package:budgy/resources/res.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class KeyboardWidget extends StatelessWidget {
   final bool isExpense;
   // TODO:: THIS IS WRONG, DON'T LEAVE IT AS IT IS PLEASE
-  late BuildContext crntContext;
+  late final BuildContext crntContext;
   KeyboardWidget({required this.isExpense});
 
   @override
@@ -50,7 +51,6 @@ class KeyboardWidget extends StatelessWidget {
       child: TextButton(
         onPressed: () {
           if (function != null) function(title);
-          // refreshResult(() {});
         },
         child: Center(
           child: title == null
@@ -86,8 +86,6 @@ class KeyboardWidget extends StatelessWidget {
       child: TextButton(
         onPressed: () {
           // TODO:: evnet calc-button pressed
-
-          // refreshResult(() {});
         },
         child: Center(
           child: Text(calculation,
@@ -102,20 +100,18 @@ class KeyboardWidget extends StatelessWidget {
       decoration:
           BoxDecoration(border: Border.all(color: AppColors.white, width: 0.1)),
       child: TextButton(
-        onPressed: () {
-          // TODO:: evnet submit-button pressed
-
-          // refreshResult(() {});
-        },
-        child: Center(
-            child:
-                // TransactionRepository.hasCalculation(textController)
-
-                //     ?
-                const Text('=',
-                    style: TextStyle(fontSize: 35, color: AppColors.white))
-            // : const Icon(Icons.check, color: AppColors.white),
-            ),
+        onPressed: () =>
+            crntContext.read<KeyboardBloc>().add(SubmitButtonPressed()),
+        child: BlocBuilder<KeyboardBloc, KeyboardState>(
+          builder: (context, state) {
+            return Center(
+              child: state.hasCalculation
+                  ? const Text('=',
+                      style: TextStyle(fontSize: 35, color: AppColors.white))
+                  : const Icon(Icons.check, color: AppColors.white),
+            );
+          },
+        ),
       ),
     );
   }

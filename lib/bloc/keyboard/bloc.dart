@@ -11,15 +11,15 @@ class KeyboardBloc extends Bloc<KeyboardEvent, KeyboardState> {
 
   @override
   Stream<KeyboardState> mapEventToState(KeyboardEvent event) async* {
-    if (event is NumberButtonPressed) yield onNumberPressed(event.number);
-    if (event is CalculationButtonPressed)
-      yield onCalculationPressed(event.caclculation);
+    if (event is NumberButtonPressed) yield onNumberPress(event.number);
+    if (event is OperatorButtonPressed)
+      yield onOperatorPress(event.caclculation);
     if (event is BackButtonPressed) yield onBackPress();
     if (event is BackButtonLongPressed) yield onBackLongPress();
-    if (event is SubmitButtonPressed) yield onSubmitPressed();
+    if (event is SubmitButtonPressed) yield onSubmitPress();
   }
 
-  KeyboardState onNumberPressed(int number) {
+  KeyboardState onNumberPress(int number) {
     String resultText = state.text;
     if (state.isInputZero)
       resultText = number.toString();
@@ -29,15 +29,17 @@ class KeyboardBloc extends Bloc<KeyboardEvent, KeyboardState> {
     return state.copyWith(text: resultText);
   }
 
-  KeyboardState onCalculationPressed(String calculation) {
+  KeyboardState onOperatorPress(String calculation) {
     String resultText = state.text;
     if (state.lastDigitIsCalc)
       resultText = resultText.replaceFirst(
           TransactionRepository.operatorRegex, calculation);
-    else if (state.hasCalculation) {
-      TransactionRepository();
-      resultText += calculation;
-    } else
+    else if (!TransactionRepository.isValidOperation(state.text))
+      resultText = state.text;
+    else if (state.hasCalculation)
+      resultText =
+          TransactionRepository.performCalculation(state.text) + calculation;
+    else
       resultText += calculation;
     return state.copyWith(text: resultText);
   }
@@ -53,8 +55,8 @@ class KeyboardBloc extends Bloc<KeyboardEvent, KeyboardState> {
     return state.copyWith(text: '0');
   }
 
-  KeyboardState onSubmitPressed() {
-    if (state.hasCalculation)
+  KeyboardState onSubmitPress() {
+    if (state.hasCalculation && !state.lastDigitIsCalc)
       return KeyboardState(
           text: TransactionRepository.performCalculation(state.text),
           isExpense: state.isExpense);
@@ -66,13 +68,15 @@ class KeyboardBloc extends Bloc<KeyboardEvent, KeyboardState> {
 
   void _createTransaction() async {
     Transaction _newTransaction =
-        await TransactionService.createTransactionWithData(Transaction(
-      datetime: DateTime.now(),
-      currency: "EGP",
-      categoryId: 1,
-      isExpense: state.isExpense,
-      amount: state.textAsNum!,
-    ));
+        await TransactionService.createTransactionWithData(
+      Transaction(
+        datetime: DateTime.now(),
+        currency: "EGP",
+        categoryId: 1,
+        isExpense: state.isExpense,
+        amount: state.textAsNum!,
+      ),
+    );
     appRouter.root.pop(_newTransaction);
   }
 }

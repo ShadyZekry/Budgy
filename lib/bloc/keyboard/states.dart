@@ -10,9 +10,8 @@ class KeyboardState {
   double? get textAsNum =>
       TransactionRepository.getFormatedAmountDouble(_controller);
 
-  bool get isInputZero =>
-      TransactionRepository.getFormatedAmountDouble(_controller) == 0;
-  bool get hasCalculation => TransactionRepository.hasCalculation(_controller);
+  bool get isInputZero => textAsNum == 0;
+  bool get hasCalculation => TransactionRepository.hasOperator(text);
   bool get lastDigitIsCalc =>
       text[text.length - 1].contains(RegExp(r'\÷|x|\-|\+'));
   bool get shouldRemoveFromInput =>

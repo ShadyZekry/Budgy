@@ -84,9 +84,9 @@ class KeyboardWidget extends StatelessWidget {
       decoration:
           BoxDecoration(border: Border.all(color: AppColors.white, width: 0.1)),
       child: TextButton(
-        onPressed: () {
-          // TODO:: evnet calc-button pressed
-        },
+        onPressed: () => crntContext
+            .read<KeyboardBloc>()
+            .add(OperatorButtonPressed(calculation)),
         child: Center(
           child: Text(calculation,
               style: const TextStyle(fontSize: 35, color: AppColors.white)),
@@ -121,10 +121,8 @@ class KeyboardWidget extends StatelessWidget {
       decoration:
           BoxDecoration(border: Border.all(color: AppColors.white, width: 0.1)),
       child: TextButton(
-        onPressed: () {
-          crntContext.read<KeyboardBloc>().add(NumberButtonPressed(number));
-          // refreshResult(() {});
-        },
+        onPressed: () =>
+            crntContext.read<KeyboardBloc>().add(NumberButtonPressed(number)),
         child: Center(
           child: Text(number.toString(),
               style: const TextStyle(fontSize: 35, color: AppColors.white)),

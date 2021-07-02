@@ -7,9 +7,9 @@ class NumberButtonPressed extends KeyboardEvent {
   const NumberButtonPressed(this.number);
 }
 
-class CalculationButtonPressed extends KeyboardEvent {
+class OperatorButtonPressed extends KeyboardEvent {
   final String caclculation;
-  const CalculationButtonPressed(this.caclculation);
+  const OperatorButtonPressed(this.caclculation);
 }
 
 class BackButtonPressed extends KeyboardEvent {}

@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
+typedef Equation = List<dynamic>;
+
 class TransactionRepository {
   static final RegExp operatorRegex = RegExp(r'\÷|x|\-|\+');
 
@@ -14,8 +16,8 @@ class TransactionRepository {
     return double.tryParse(controller.text);
   }
 
-  static bool hasCalculation(TextEditingController controller) {
-    return controller.text.contains(operatorRegex);
+  static bool hasOperator(String input) {
+    return input.contains(operatorRegex);
   }
 
   static String removeLastCharFrom(String input) {
@@ -26,27 +28,24 @@ class TransactionRepository {
   }
 
   static String performCalculation(String input) {
-    int operatorIndex = input.indexOf(operatorRegex);
-    double a = double.parse(input.substring(0, operatorIndex));
-    double b = double.parse(input.substring(operatorIndex + 1));
+    Equation equation = _splitToEquation(input);
+    if (!isValidOperation(input)) return input;
 
     double? result;
 
-    switch (input[operatorIndex]) {
+    switch (equation[0]) {
       case '÷':
-        result = _performDivision(a, b);
+        result = equation[1] / equation[2];
         break;
       case 'x':
-        result = _performMultiplication(a, b);
+        result = equation[1] * equation[2];
         break;
       case '-':
-        result = _performSubtraction(a, b);
+        result = equation[1] - equation[2];
         break;
       case '+':
-        result = _performAddition(a, b);
+        result = equation[1] + equation[2];
         break;
-      default:
-        return input;
     }
 
     if (result == null) return input;
@@ -57,16 +56,22 @@ class TransactionRepository {
       return result.toString();
   }
 
-  static double? _performDivision(double a, double b) {
-    if (b == 0) return null;
-    return a / b;
+  static bool isValidOperation(String input) {
+    if (!hasOperator(input)) return true;
+
+    Equation equation = _splitToEquation(input);
+    if (equation[0] == '÷' && equation[2] == 0) return false;
+    if (equation[0] == '-' && equation[1] < equation[2]) return false;
+    return true;
   }
 
-  static double _performMultiplication(double a, double b) => a * b;
-  static double? _performSubtraction(double a, double b) {
-    if (a < b) return null;
-    return a - b;
-  }
+  static Equation _splitToEquation(String input) {
+    int operatorIndex = input.indexOf(operatorRegex);
 
-  static double _performAddition(double a, double b) => a + b;
+    String operator = input[operatorIndex];
+    double a = double.parse(input.substring(0, operatorIndex));
+    double b = double.parse(input.substring(operatorIndex + 1));
+
+    return [operator, a, b];
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:budgy/bloc/keyboard/bloc.dart';
 import 'package:budgy/bloc/keyboard/events.dart';
+import 'package:budgy/ui/home_fab/expanding_fab.dart';
 import 'package:flutter/material.dart';
 import 'package:budgy/models/transaction.dart';
 import 'package:budgy/resources/res.dart';
@@ -7,6 +8,8 @@ import 'package:budgy/services/transaction.dart';
 import 'package:budgy/widgets/transaction_box.dart';
 import 'package:budgy/widgets/transaction_creation/add_transaction_bottom_sheet.dart';
 import 'package:provider/src/provider.dart';
+
+import 'home_fab/action_button.dart';
 
 class TransactionsScreen extends StatefulWidget {
   @override
@@ -34,22 +37,30 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      floatingActionButton: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          FloatingActionButton(
-            onPressed: () => _onAddTransactions(true),
-            child: const Icon(Icons.insert_drive_file),
-          ),
-          FloatingActionButton(
-            onPressed: () => _onAddTransactions(false),
-            child: const Icon(Icons.monetization_on),
-          ),
-          FloatingActionButton(
-            onPressed: _onRemoveTransactions,
-            child: const Icon(Icons.remove),
-          ),
-        ],
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 15),
+        child: ExpandingFAB(
+          distance: 100,
+          durationTime: 250,
+          children: [
+            ActionButton(
+              onPressed: () => _onAddTransactions(true),
+              icon: const Icon(Icons.minimize),
+              color: AppColors.expenseIndicatorColor,
+            ),
+            ActionButton(
+              onPressed: () => _onAddTransactions(false),
+              icon: const Icon(Icons.add),
+              color: AppColors.incomeIndicatorColor,
+            ),
+            ActionButton(
+              onPressed: () => _onRemoveTransactions(),
+              icon: const Icon(Icons.delete),
+              color: AppColors.white,
+            ),
+          ],
+        ),
       ),
       body:
           //TODO:: remove this center widget

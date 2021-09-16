@@ -19,6 +19,7 @@ class KeyboardBloc extends Bloc<KeyboardEvent, KeyboardState> {
     if (event is BackButtonPressed) yield onBackPress();
     if (event is BackButtonLongPressed) yield onBackLongPress();
     if (event is SubmitButtonPressed) yield onSubmitPress();
+    if (event is AddTransactionSheetDisposed) yield onTransactionSheetDispose();
   }
 
   KeyboardState onAddTransaction({required bool isExpense}) {
@@ -69,7 +70,7 @@ class KeyboardBloc extends Bloc<KeyboardEvent, KeyboardState> {
 
     if (!state.isInputZero) _createTransaction();
 
-    return state.copyWith(text: '0');
+    return state;
   }
 
   void _createTransaction() async {
@@ -85,5 +86,9 @@ class KeyboardBloc extends Bloc<KeyboardEvent, KeyboardState> {
     );
 
     appRouter.root.pop(_newTransaction);
+  }
+
+  KeyboardState onTransactionSheetDispose() {
+    return state.copyWith(text: '0');
   }
 }

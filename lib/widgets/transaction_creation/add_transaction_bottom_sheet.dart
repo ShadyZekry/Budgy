@@ -1,4 +1,5 @@
 import 'package:budgy/bloc/keyboard/bloc.dart';
+import 'package:budgy/bloc/keyboard/events.dart';
 import 'package:budgy/bloc/keyboard/states.dart';
 import 'package:budgy/resources/colors.dart';
 import 'package:budgy/widgets/transaction_creation/keyboard_widget.dart';
@@ -12,6 +13,14 @@ class AddTransactionBottomSheet extends StatefulWidget {
 }
 
 class _AddTransactionBottomSheetState extends State<AddTransactionBottomSheet> {
+  late KeyboardBloc _keyboardBloc;
+
+  @override
+  void initState() {
+    _keyboardBloc = context.read<KeyboardBloc>();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -45,5 +54,11 @@ class _AddTransactionBottomSheetState extends State<AddTransactionBottomSheet> {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _keyboardBloc.add(AddTransactionSheetDisposed());
+    super.dispose();
   }
 }

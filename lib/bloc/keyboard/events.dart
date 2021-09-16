@@ -22,3 +22,5 @@ class BackButtonPressed extends KeyboardEvent {}
 class BackButtonLongPressed extends KeyboardEvent {}
 
 class SubmitButtonPressed extends KeyboardEvent {}
+
+class AddTransactionSheetDisposed extends KeyboardEvent {}

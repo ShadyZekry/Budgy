@@ -11,12 +11,19 @@ class KeyboardBloc extends Bloc<KeyboardEvent, KeyboardState> {
 
   @override
   Stream<KeyboardState> mapEventToState(KeyboardEvent event) async* {
+    if (event is AddTransactionPressed)
+      yield onAddTransaction(isExpense: event.isExpense);
     if (event is NumberButtonPressed) yield onNumberPress(event.number);
     if (event is OperatorButtonPressed)
       yield onOperatorPress(event.caclculation);
     if (event is BackButtonPressed) yield onBackPress();
     if (event is BackButtonLongPressed) yield onBackLongPress();
     if (event is SubmitButtonPressed) yield onSubmitPress();
+    if (event is AddTransactionSheetDisposed) yield onTransactionSheetDispose();
+  }
+
+  KeyboardState onAddTransaction({required bool isExpense}) {
+    return state.copyWith(isExpense: isExpense);
   }
 
   KeyboardState onNumberPress(int number) {
@@ -77,6 +84,11 @@ class KeyboardBloc extends Bloc<KeyboardEvent, KeyboardState> {
         amount: state.textAsNum!,
       ),
     );
+
     appRouter.root.pop(_newTransaction);
+  }
+
+  KeyboardState onTransactionSheetDispose() {
+    return state.copyWith(text: '0');
   }
 }

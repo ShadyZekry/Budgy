@@ -1,4 +1,5 @@
 import 'package:budgy/bloc/keyboard/bloc.dart';
+import 'package:budgy/bloc/keyboard/events.dart';
 import 'package:budgy/bloc/keyboard/states.dart';
 import 'package:budgy/resources/colors.dart';
 import 'package:budgy/widgets/transaction_creation/keyboard_widget.dart';
@@ -6,15 +7,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddTransactionBottomSheet extends StatefulWidget {
-  final bool isExpense;
-  AddTransactionBottomSheet({required this.isExpense});
-
   @override
   _AddTransactionBottomSheetState createState() =>
       _AddTransactionBottomSheetState();
 }
 
 class _AddTransactionBottomSheetState extends State<AddTransactionBottomSheet> {
+  late KeyboardBloc _keyboardBloc;
+
+  @override
+  void initState() {
+    _keyboardBloc = context.read<KeyboardBloc>();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,7 +31,7 @@ class _AddTransactionBottomSheetState extends State<AddTransactionBottomSheet> {
       child: Column(
         children: [
           _buildResultWidget(),
-          KeyboardWidget(isExpense: widget.isExpense),
+          KeyboardWidget(),
         ],
       ),
     );
@@ -40,7 +46,7 @@ class _AddTransactionBottomSheetState extends State<AddTransactionBottomSheet> {
             state.text,
             style: TextStyle(
               fontSize: 30,
-              color: widget.isExpense
+              color: state.isExpense
                   ? AppColors.expenseIndicatorColor
                   : AppColors.incomeIndicatorColor,
             ),
@@ -48,5 +54,11 @@ class _AddTransactionBottomSheetState extends State<AddTransactionBottomSheet> {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _keyboardBloc.add(AddTransactionSheetDisposed());
+    super.dispose();
   }
 }

@@ -6,10 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class KeyboardWidget extends StatelessWidget {
-  final bool isExpense;
   // TODO:: THIS IS WRONG, DON'T LEAVE IT AS IT IS PLEASE
   late final BuildContext crntContext;
-  KeyboardWidget({required this.isExpense});
 
   @override
   Widget build(BuildContext context) {

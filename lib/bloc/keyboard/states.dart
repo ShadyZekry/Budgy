@@ -20,7 +20,7 @@ class KeyboardState {
 
   KeyboardState._internal(String text, bool isExpense)
       : _controller = TextEditingController(text: text),
-        isExpense = true;
+        isExpense = isExpense;
 
   factory KeyboardState({required String text, required bool isExpense}) =>
       KeyboardState._internal(text, isExpense);

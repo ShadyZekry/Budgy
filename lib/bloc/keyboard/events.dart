@@ -2,6 +2,11 @@ abstract class KeyboardEvent {
   const KeyboardEvent();
 }
 
+class AddTransactionPressed extends KeyboardEvent {
+  final bool isExpense;
+  const AddTransactionPressed({required this.isExpense});
+}
+
 class NumberButtonPressed extends KeyboardEvent {
   final int number;
   const NumberButtonPressed(this.number);

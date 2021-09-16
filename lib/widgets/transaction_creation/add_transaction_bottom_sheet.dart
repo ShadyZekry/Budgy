@@ -6,9 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddTransactionBottomSheet extends StatefulWidget {
-  final bool isExpense;
-  AddTransactionBottomSheet({required this.isExpense});
-
   @override
   _AddTransactionBottomSheetState createState() =>
       _AddTransactionBottomSheetState();
@@ -25,7 +22,7 @@ class _AddTransactionBottomSheetState extends State<AddTransactionBottomSheet> {
       child: Column(
         children: [
           _buildResultWidget(),
-          KeyboardWidget(isExpense: widget.isExpense),
+          KeyboardWidget(),
         ],
       ),
     );
@@ -40,7 +37,7 @@ class _AddTransactionBottomSheetState extends State<AddTransactionBottomSheet> {
             state.text,
             style: TextStyle(
               fontSize: 30,
-              color: widget.isExpense
+              color: state.isExpense
                   ? AppColors.expenseIndicatorColor
                   : AppColors.incomeIndicatorColor,
             ),

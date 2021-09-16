@@ -1,9 +1,12 @@
+import 'package:budgy/bloc/keyboard/bloc.dart';
+import 'package:budgy/bloc/keyboard/events.dart';
 import 'package:flutter/material.dart';
 import 'package:budgy/models/transaction.dart';
 import 'package:budgy/resources/res.dart';
 import 'package:budgy/services/transaction.dart';
 import 'package:budgy/widgets/transaction_box.dart';
 import 'package:budgy/widgets/transaction_creation/add_transaction_bottom_sheet.dart';
+import 'package:provider/src/provider.dart';
 
 class TransactionsScreen extends StatefulWidget {
   @override
@@ -82,9 +85,13 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
   }
 
   void _onAddTransactions(bool isExpense) async {
+    context
+        .read<KeyboardBloc>()
+        .add(AddTransactionPressed(isExpense: isExpense));
+
     Transaction? _newTransaction = await showModalBottomSheet<Transaction>(
       context: context,
-      builder: (_) => AddTransactionBottomSheet(isExpense: isExpense),
+      builder: (_) => AddTransactionBottomSheet(),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
     );
 

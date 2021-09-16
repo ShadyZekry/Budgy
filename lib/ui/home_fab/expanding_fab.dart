@@ -76,45 +76,6 @@ class _ExpandingFABState extends State<ExpandingFAB>
     );
   }
 
-  Transform _buildPlusButton() {
-    return Transform.rotate(
-      angle: pi / 4,
-      child: IgnorePointer(
-        ignoring: _open,
-        child: AnimatedContainer(
-          transformAlignment: Alignment.center,
-          transform: Matrix4.diagonal3Values(
-            _open ? 0.7 : 1.0,
-            _open ? 0.7 : 1.0,
-            1.0,
-          ),
-          duration: const Duration(milliseconds: 250),
-          curve: const Interval(0.0, 0.5, curve: Curves.easeOut),
-          child: AnimatedOpacity(
-            duration: const Duration(milliseconds: 250),
-            opacity: _open ? 0.0 : 1.0,
-            curve: const Interval(0.25, 1.0, curve: Curves.easeInOut),
-            child: FloatingActionButton(
-              onPressed: () => _toggle(),
-              backgroundColor: Colors.green,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Transform.rotate(
-                child: const Icon(
-                  Icons.add,
-                  size: 30,
-                  color: AppColors.white,
-                ),
-                angle: -pi / 4,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget _buildCloseButton() {
     return Transform.rotate(
       angle: pi / 4,
@@ -153,5 +114,52 @@ class _ExpandingFABState extends State<ExpandingFAB>
       );
     }
     return children;
+  }
+
+  Transform _buildPlusButton() {
+    return Transform.rotate(
+      angle: pi / 4,
+      child: IgnorePointer(
+        ignoring: _open,
+        child: AnimatedContainer(
+          transformAlignment: Alignment.center,
+          duration: const Duration(milliseconds: 250),
+          curve: const Interval(0.0, 0.5, curve: Curves.easeOut),
+          transform: Matrix4.diagonal3Values(
+            _open ? 0.7 : 1.0,
+            _open ? 0.7 : 1.0,
+            1.0,
+          ),
+          child: AnimatedOpacity(
+            duration: const Duration(milliseconds: 250),
+            opacity: _open ? 0.0 : 1.0,
+            curve: const Interval(0.25, 1.0, curve: Curves.easeInOut),
+            child: FloatingActionButton(
+              onPressed: () => _toggle(),
+              child: Container(
+                width: 100,
+                height: 100,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  gradient: const LinearGradient(
+                    colors: [AppColors.accentYellow, AppColors.accentGreen],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
+                child: Transform.rotate(
+                  child: const Icon(
+                    Icons.add,
+                    size: 30,
+                    color: AppColors.primary,
+                  ),
+                  angle: -pi / 4,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

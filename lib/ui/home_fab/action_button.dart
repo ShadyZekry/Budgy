@@ -14,9 +14,9 @@ class ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Card(
       shape: const CircleBorder(),
+      clipBehavior: Clip.antiAlias,
       elevation: 10,
       color: color,
       child: IconButton(

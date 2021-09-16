@@ -63,7 +63,7 @@ class KeyboardBloc extends Bloc<KeyboardEvent, KeyboardState> {
 
     if (!state.isInputZero) _createTransaction();
 
-    return state;
+    return state.copyWith(text: '0');
   }
 
   void _createTransaction() async {
@@ -77,6 +77,7 @@ class KeyboardBloc extends Bloc<KeyboardEvent, KeyboardState> {
         amount: state.textAsNum!,
       ),
     );
+
     appRouter.root.pop(_newTransaction);
   }
 }

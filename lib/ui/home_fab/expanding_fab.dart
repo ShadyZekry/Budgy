@@ -8,15 +8,16 @@ import 'expandable_button.dart';
 @immutable
 class ExpandingFAB extends StatefulWidget {
   const ExpandingFAB({
-    Key? key,
     this.initialOpen,
     required this.distance,
     required this.children,
-  }) : super(key: key);
+    required this.durationTime,
+  });
 
   final bool? initialOpen;
   final double distance;
   final List<Widget> children;
+  final int durationTime;
 
   @override
   _ExpandingFABState createState() => _ExpandingFABState();
@@ -25,8 +26,6 @@ class ExpandingFAB extends StatefulWidget {
 class _ExpandingFABState extends State<ExpandingFAB>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
-  late final Animation<double> _expandAnimation;
-  // ...
 
   @override
   void initState() {
@@ -34,14 +33,10 @@ class _ExpandingFABState extends State<ExpandingFAB>
     _open = widget.initialOpen ?? false;
     _controller = AnimationController(
       value: _open ? 1.0 : 0.0,
-      duration: const Duration(milliseconds: 250),
+      duration: Duration(milliseconds: widget.durationTime),
       vsync: this,
     );
-    _expandAnimation = CurvedAnimation(
-      curve: Curves.fastOutSlowIn,
-      reverseCurve: Curves.easeOutQuad,
-      parent: _controller,
-    );
+    ;
   }
 
   @override
@@ -86,12 +81,12 @@ class _ExpandingFABState extends State<ExpandingFAB>
           borderRadius: BorderRadius.circular(15),
         ),
         child: Transform.rotate(
+          angle: -pi / 4,
           child: const Icon(
             Icons.close,
             size: 30,
             color: AppColors.expenseIndicatorColor,
           ),
-          angle: -pi / 4,
         ),
       ),
     );
@@ -108,7 +103,11 @@ class _ExpandingFABState extends State<ExpandingFAB>
         ExpandingActionButton(
           directionInDegrees: angleInDegrees,
           maxDistance: widget.distance,
-          progress: _expandAnimation,
+          progress: CurvedAnimation(
+            curve: Curves.fastOutSlowIn,
+            reverseCurve: Curves.easeOutQuad,
+            parent: _controller,
+          ),
           child: widget.children[i],
         ),
       );
@@ -121,39 +120,32 @@ class _ExpandingFABState extends State<ExpandingFAB>
       angle: pi / 4,
       child: IgnorePointer(
         ignoring: _open,
-        child: AnimatedContainer(
-          transformAlignment: Alignment.center,
-          duration: const Duration(milliseconds: 250),
-          curve: const Interval(0.0, 0.5, curve: Curves.easeOut),
-          transform: Matrix4.diagonal3Values(
-            _open ? 0.7 : 1.0,
-            _open ? 0.7 : 1.0,
-            1.0,
-          ),
-          child: AnimatedOpacity(
-            duration: const Duration(milliseconds: 250),
-            opacity: _open ? 0.0 : 1.0,
-            curve: const Interval(0.25, 1.0, curve: Curves.easeInOut),
-            child: FloatingActionButton(
-              onPressed: () => _toggle(),
-              child: Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  gradient: const LinearGradient(
-                    colors: [AppColors.accentYellow, AppColors.accentGreen],
-                    begin: Alignment.centerLeft,
-                    end: Alignment.bottomRight,
-                  ),
+        child: AnimatedOpacity(
+          duration: Duration(milliseconds: widget.durationTime),
+          opacity: _open ? 0.0 : 1.0,
+          curve: const Interval(0.25, 1.0, curve: Curves.easeInOut),
+          child: FloatingActionButton(
+            onPressed: () => _toggle(),
+            child: Container(
+              width: 100,
+              height: 100,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                gradient: const LinearGradient(
+                  colors: [AppColors.accentYellow, AppColors.accentGreen],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.bottomRight,
                 ),
-                child: Transform.rotate(
-                  child: const Icon(
-                    Icons.add,
-                    size: 30,
-                    color: AppColors.primary,
-                  ),
-                  angle: -pi / 4,
+              ),
+              child: AnimatedRotation(
+                // 0 => -1/4 pi (move an octant counter clockwise)
+                turns: _open ? 0 : -0.125,
+                duration: Duration(milliseconds: widget.durationTime),
+                curve: const Interval(0.25, 1.0, curve: Curves.easeInOut),
+                child: const Icon(
+                  Icons.add,
+                  size: 30,
+                  color: AppColors.primary,
                 ),
               ),
             ),

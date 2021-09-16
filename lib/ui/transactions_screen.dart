@@ -42,6 +42,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
         padding: const EdgeInsets.only(bottom: 15),
         child: ExpandingFAB(
           distance: 100,
+          durationTime: 250,
           children: [
             ActionButton(
               onPressed: () => _onAddTransactions(true),

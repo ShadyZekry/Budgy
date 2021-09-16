@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:budgy/bloc/keyboard/bloc.dart';
 import 'package:budgy/bloc/keyboard/events.dart';
 import 'package:flutter/material.dart';
@@ -34,23 +36,43 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      floatingActionButton: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          FloatingActionButton(
-            onPressed: () => _onAddTransactions(true),
-            child: const Icon(Icons.insert_drive_file),
-          ),
-          FloatingActionButton(
-            onPressed: () => _onAddTransactions(false),
-            child: const Icon(Icons.monetization_on),
-          ),
-          FloatingActionButton(
-            onPressed: _onRemoveTransactions,
-            child: const Icon(Icons.remove),
-          ),
-        ],
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: const BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        notchMargin: 7,
+        color: AppColors.boxColor,
+        child: const Padding(padding: const EdgeInsets.all(20)),
       ),
+      floatingActionButton: Transform.rotate(
+        angle: pi / 4,
+        child: FloatingActionButton(
+          onPressed: () {},
+          backgroundColor: Colors.green,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Transform.rotate(
+            child: const Icon(
+              Icons.add,
+              size: 30,
+              color: AppColors.white,
+            ),
+            angle: -pi / 4,
+          ),
+        ),
+      ),
+      // FloatingActionButton(
+      //   onPressed: () => _onAddTransactions(true),
+      //   child: const Icon(Icons.insert_drive_file),
+      // ),
+      // FloatingActionButton(
+      //   onPressed: () => _onAddTransactions(false),
+      //   child: const Icon(Icons.monetization_on),
+      // ),
+      // FloatingActionButton(
+      //   onPressed: _onRemoveTransactions,
+      //   child: const Icon(Icons.remove),
+      // ),
       body:
           //TODO:: remove this center widget
           Center(

@@ -5,19 +5,20 @@ class ActionButton extends StatelessWidget {
   const ActionButton({
     this.onPressed,
     required this.icon,
+    required this.color,
   });
 
   final VoidCallback? onPressed;
   final Widget icon;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Material(
+    return Card(
       shape: const CircleBorder(),
-      clipBehavior: Clip.antiAlias,
-      color: theme.accentColor,
-      elevation: 4.0,
+      elevation: 10,
+      color: color,
       child: IconButton(
         onPressed: onPressed,
         icon: icon,

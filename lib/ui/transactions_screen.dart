@@ -38,22 +38,28 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: ExpandingFAB(
-        children: [
-          ActionButton(
-            onPressed: () => _onAddTransactions(true),
-            icon: const Icon(Icons.minimize),
-          ),
-          ActionButton(
-            onPressed: () => _onAddTransactions(false),
-            icon: const Icon(Icons.add),
-          ),
-          ActionButton(
-            onPressed: () => _onRemoveTransactions(),
-            icon: const Icon(Icons.delete),
-          ),
-        ],
-        distance: 100,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 15),
+        child: ExpandingFAB(
+          distance: 100,
+          children: [
+            ActionButton(
+              onPressed: () => _onAddTransactions(true),
+              icon: const Icon(Icons.minimize),
+              color: AppColors.expenseIndicatorColor,
+            ),
+            ActionButton(
+              onPressed: () => _onAddTransactions(false),
+              icon: const Icon(Icons.add),
+              color: AppColors.incomeIndicatorColor,
+            ),
+            ActionButton(
+              onPressed: () => _onRemoveTransactions(),
+              icon: const Icon(Icons.delete),
+              color: AppColors.white,
+            ),
+          ],
+        ),
       ),
       body:
           //TODO:: remove this center widget

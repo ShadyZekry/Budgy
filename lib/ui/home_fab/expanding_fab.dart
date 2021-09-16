@@ -51,14 +51,12 @@ class _ExpandingFABState extends State<ExpandingFAB>
   }
 
   void _toggle() {
-    setState(() {
-      _open = !_open;
-      if (_open) {
-        _controller.forward();
-      } else {
-        _controller.reverse();
-      }
-    });
+    _open = !_open;
+    if (_open)
+      _controller.forward();
+    else
+      _controller.reverse();
+    setState(() {});
   }
 
   bool _open = false;
